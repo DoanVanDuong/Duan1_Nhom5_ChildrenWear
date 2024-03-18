@@ -22,17 +22,10 @@ public class db extends SQLiteOpenHelper {
                 "ten TEXT NOT NULL)";
         db.execSQL(createTableThuocTinh);
 
-// Tạo bảng Thuộc tính sản phẩm
-        String createTableThuocTinhSanPham = "CREATE TABLE ThuocTinhSanPham (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "id_thuoc_tinh INTEGER REFERENCES ThuocTinh(id), " +
-                "id_san_pham INTEGER REFERENCES SanPham(id), " +
-                "gia_tri_thuoc_tinh TEXT, " +
-                "FOREIGN KEY (id_thuoc_tinh) REFERENCES ThuocTinh(id), " +
-                "FOREIGN KEY (id_san_pham) REFERENCES SanPham(id))";
-        db.execSQL(createTableThuocTinhSanPham);
+        // Chèn dữ liệu vào bảng Thuộc tính
+        db.execSQL("INSERT INTO ThuocTinh (ten) VALUES ('Màu sắc'), ('Hãng'), ('Kích thước')");
 
-// Tạo bảng Sản phẩm
+        // Tạo bảng Sản phẩm
         String createTableSanPham = "CREATE TABLE SanPham (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ten TEXT NOT NULL, " +
@@ -40,17 +33,33 @@ public class db extends SQLiteOpenHelper {
                 "gia_tien INTEGER) ";
         db.execSQL(createTableSanPham);
 
-// Tạo bảng Giỏ hàng
+        // Chèn dữ liệu vào bảng Sản phẩm
+        db.execSQL("INSERT INTO SanPham (ten, so_luong, gia_tien) VALUES ('Áo sơ mi', 20, 250000), ('Quần jean', 10, 250000)");
+
+        // Tạo bảng Giỏ hàng
         String createTableGioHang = "CREATE TABLE GioHang (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_khach_hang INTEGER REFERENCES KhachHang(id), " +
-                "id_san_pham INTEGER REFERENCES SanPham(id), " +
-                "so_luong INTEGER, " +
-                "FOREIGN KEY (id_khach_hang) REFERENCES KhachHang(id), " +
-                "FOREIGN KEY (id_san_pham) REFERENCES SanPham(id))";
+                "FOREIGN KEY (id_khach_hang) REFERENCES KhachHang(id))" ;
         db.execSQL(createTableGioHang);
 
-// Tạo bảng Khách hàng
+        // Chèn dữ liệu vào bảng Giỏ hàng
+        db.execSQL("INSERT INTO GioHang (id_khach_hang) VALUES (1)");
+
+        // Tạo bảng Giỏ hàng chi tiết
+        String createTableGioHangChiTiet = "CREATE TABLE GioHangChiTiet (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id_gio_hang INTEGER REFERENCES GioHang(id), " +
+                "id_san_pham INTEGER REFERENCES SanPham(id), " +
+                "so_luong INTEGER, " +
+                "FOREIGN KEY (id_gio_hang ) REFERENCES GioHang(id), " +
+                "FOREIGN KEY (id_san_pham) REFERENCES SanPham(id))";
+        db.execSQL(createTableGioHangChiTiet);
+
+        // Chèn dữ liệu vào bảng Giỏ hàng chi tiết
+        db.execSQL("INSERT INTO GioHangChiTiet (id_gio_hang, id_san_pham, so_luong) VALUES (1, 1, 2), (1, 2, 1)");
+
+        // Tạo bảng Khách hàng
         String createTableKhachHang = "CREATE TABLE KhachHang (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ten TEXT NOT NULL, " +
@@ -61,7 +70,10 @@ public class db extends SQLiteOpenHelper {
                 "pass TEXT NOT NULL)";
         db.execSQL(createTableKhachHang);
 
-// Tạo bảng Nhân viên
+        // Chèn dữ liệu vào bảng Khách hàng
+        db.execSQL("INSERT INTO KhachHang (ten, email, sdt, dia_chi, username, pass) VALUES ('Nguyễn Văn A', 'nguyenvana@example.com', '0123456789', 'Hà Nội', 'nguyenvana', '123456')");
+
+        // Tạo bảng Nhân viên
         String createTableNhanVien = "CREATE TABLE NhanVien (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ten TEXT NOT NULL, " +
@@ -73,7 +85,10 @@ public class db extends SQLiteOpenHelper {
                 "chuc_vu TEXT NOT NULL)";
         db.execSQL(createTableNhanVien);
 
-// Tạo bảng Đơn hàng
+        // Chèn dữ liệu vào bảng Nhân viên
+        db.execSQL("INSERT INTO NhanVien (ten, email, sdt, dia_chi, username, pass, chuc_vu) VALUES ('Nguyễn Thị B', 'vinhtd01112@gmail.com', '0987654321', 'Hồ Chí Minh', 'nguyenthidb', '123456', 'nhavien'), ('Trần Đức Vinh', 'vinh04012004@gmail.com', '0987654321', 'Hồ Chí Minh', 'admin', 'admin', 'admin')");
+
+        // Tạo bảng Đơn hàng
         String createTableDonHang = "CREATE TABLE DonHang (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_khach_hang INTEGER REFERENCES KhachHang(id), " +
@@ -85,7 +100,10 @@ public class db extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_nhan_vien) REFERENCES NhanVien(id))";
         db.execSQL(createTableDonHang);
 
-// Tạo bảng Chi tiết đơn hàng
+        // Chèn dữ liệu vào bảng Đơn hàng
+        db.execSQL("INSERT INTO DonHang (id_khach_hang, id_nhan_vien, ngay_mua, trang_thai, tong_tien) VALUES (1, 1, '2024-03-14', 1, 750000)");
+
+        // Tạo bảng Chi tiết đơn hàng
         String createTableChiTietDonHang = "CREATE TABLE ChiTietDonHang (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_san_pham INTEGER REFERENCES SanPham(id), " +
@@ -96,43 +114,8 @@ public class db extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_don_hang) REFERENCES DonHang(id))";
         db.execSQL(createTableChiTietDonHang);
 
-        // data mẫu
-        // Chèn dữ liệu vào bảng Thuộc tính
-        db.execSQL("INSERT INTO ThuocTinh  VALUES ('Màu sắc')," +
-                " ('Hãng')," +
-                "('Kích thước')");
-
-// Chèn dữ liệu vào bảng Sản phẩm
-        db.execSQL("INSERT INTO SanPham  VALUES ('Áo sơ mi', 20, 250000)," +
-                "('Quần jean', 10, 250000)");
-
-// Chèn dữ liệu vào bảng Thuộc tính sản phẩm
-        db.execSQL("INSERT INTO ThuocTinhSanPham  VALUES (1, 1, 'Trắng')," +
-                " (3, 1, 'ADIDAS')," +
-                " (2, 1, 'M'), " +
-                "(1, 2, 'Be')," +
-                " (3, 2, 'ADIDAS')," +
-                " (2, 2, 'L')");
-
-
-// Chèn dữ liệu vào bảng Khách hàng
-        db.execSQL("INSERT INTO KhachHang VALUES ('Nguyễn Văn A', 'nguyenvana@example.com', '0123456789', 'Hà Nội', 'nguyenvana', '123456')");
-
-// Chèn dữ liệu vào bảng Nhân viên
-        db.execSQL("INSERT INTO NhanVien  VALUES ('Nguyễn Thị B', 'vinhtd01112@gmail.com', '0987654321', 'Hồ Chí Minh', 'nguyenthidb', '123456', 'nhavien')," +
-                "('Trần Đức Vinh', 'vinh04012004@gmail.com', '0987654321', 'Hồ Chí Minh', 'admin', 'admin', 'admin')");
-
-// Chèn dữ liệu vào bảng Đơn hàng
-        db.execSQL("INSERT INTO DonHang  VALUES (1, 1, '2024-03-14', 1 , 750000)");
-
-// Chèn dữ liệu vào bảng Giỏ hàng
-        db.execSQL("INSERT INTO GioHang  VALUES (1, 1, 2)," +
-                "(1, 2, 1)");
-
-// Chèn dữ liệu vào bảng Chi tiết đơn hàng
-        db.execSQL("INSERT INTO ChiTietDonHang  VALUES (1, 1, 2, 250000)," +
-                " (2, 1, 1, 250000)");
-
+        // Chèn dữ liệu vào bảng Chi tiết đơn hàng
+        db.execSQL("INSERT INTO ChiTietDonHang (id_san_pham, id_don_hang, so_luong, gia_tien) VALUES (1, 1, 2, 250000), (2, 1, 1, 250000)");
     }
 
     @Override
