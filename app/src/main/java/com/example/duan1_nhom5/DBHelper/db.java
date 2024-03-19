@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class db extends SQLiteOpenHelper {
     public static final String DB_NAME = "CHQA";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 7;
 
     public db(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -41,11 +41,11 @@ public class db extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_thuoc_tinh INTEGER REFERENCES ThuocTinh(id)," +
                 "id_san_pham INTEGER REFERENCES SanPham(id)," +
-                "gia_tri TEXT NOT NULL )";
+                "gia_tri_thuoc_tinh TEXT NOT NULL )";
         db.execSQL(createTableThuocTinhSanPham);
 
         // Chèn dữ liệu vào bảng Thuộc tính sản phẩm
-        db.execSQL("INSERT INTO ThuocTinhSanPham (id_thuoc_tinh,id_san_pham,gia_tri) VALUES (1,1,'Be'), (1,2,'Hồng'), (2,1,'Adidas'),(2,2,'Adidas'),(3,1,'L'),(3,2,'XL')");
+        db.execSQL("INSERT INTO ThuocTinhSanPham (id_thuoc_tinh,id_san_pham,gia_tri_thuoc_tinh) VALUES (1,1,'Be'), (1,2,'Hồng'), (2,1,'Adidas'),(2,2,'Adidas'),(3,1,'L'),(3,2,'XL')");
 
         // Tạo bảng Giỏ hàng
         String createTableGioHang = "CREATE TABLE GioHang (" +
@@ -112,7 +112,7 @@ public class db extends SQLiteOpenHelper {
         db.execSQL(createTableDonHang);
 
         // Chèn dữ liệu vào bảng Đơn hàng
-        db.execSQL("INSERT INTO DonHang (id_khach_hang, id_nhan_vien, ngay_mua, trang_thai, tong_tien) VALUES (1, 1, '2024-03-14', 1, 750000)");
+        db.execSQL("INSERT INTO DonHang (id_khach_hang, id_nhan_vien, ngay_mua, trang_thai, tong_tien) VALUES (1, 1, '2024-03-14', 1, 750000),(1,'', '2024-03-14', 0, 250000)");
 
         // Tạo bảng Chi tiết đơn hàng
         String createTableChiTietDonHang = "CREATE TABLE ChiTietDonHang (" +
@@ -126,7 +126,7 @@ public class db extends SQLiteOpenHelper {
         db.execSQL(createTableChiTietDonHang);
 
         // Chèn dữ liệu vào bảng Chi tiết đơn hàng
-        db.execSQL("INSERT INTO ChiTietDonHang (id_san_pham, id_don_hang, so_luong, gia_tien) VALUES (1, 1, 2, 250000), (2, 1, 1, 250000)");
+        db.execSQL("INSERT INTO ChiTietDonHang (id_san_pham, id_don_hang, so_luong, gia_tien) VALUES (1, 1, 2, 500000), (2, 1, 1, 250000),(1,2,1,250000)");
     }
 
     @Override
@@ -135,7 +135,7 @@ public class db extends SQLiteOpenHelper {
             db.execSQL("drop table if exists ThuocTinh");
             db.execSQL("drop table if exists ThuocTinhSanPham");
             db.execSQL("drop table if exists SanPham");
-            db.execSQL("drop table if exists ThuocTinhSanPham");
+            db.execSQL("drop table if exists GioHangChiTiet");
             db.execSQL("drop table if exists KhachHang");
             db.execSQL("drop table if exists NhanVien");
             db.execSQL("drop table if exists DonHang");

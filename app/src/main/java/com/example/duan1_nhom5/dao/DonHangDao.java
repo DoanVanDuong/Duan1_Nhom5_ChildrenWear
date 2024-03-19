@@ -1,5 +1,6 @@
 package com.example.duan1_nhom5.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -57,4 +58,32 @@ public class DonHangDao {
         db.close();
         return donHangList;
     }
+    public boolean delete(int id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int result = db.delete("DonHang", "id=?", new String[]{String.valueOf(id)});
+        db.close();
+        return result > 0;
+    }
+    public boolean updateNameAndStatus(int id, String tenNV, int trangThai) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_nhan_vien", tenNV);
+        values.put("trang_thai", trangThai);
+        int result = db.update("DonHang", values, "id=?", new String[]{String.valueOf(id)});
+        db.close();
+        return result > 0;
+    }
+    public boolean add(int idNV, int idKH, int tongTien, int trangThai) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_nhan_vien", idNV);
+        values.put("id_khach_hang", idKH);
+        values.put("tong_tien", tongTien);
+        values.put("trang_thai", trangThai);
+        long result = db.insert("DonHang", null, values);
+        db.close();
+        // Kiểm tra xem việc thêm đơn hàng có thành công hay không
+        return result != -1;
+    }
+
 }
