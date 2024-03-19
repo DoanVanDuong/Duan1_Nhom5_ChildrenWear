@@ -1,2 +1,4 @@
-package com.example.duan1_nhom5.model;public class SanPham {
+package com.example.duan1_nhom5.model;
+public class SanPham {
+
 }
