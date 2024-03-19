@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class db extends SQLiteOpenHelper {
     public static final String DB_NAME = "CHQA";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     public db(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -29,18 +29,29 @@ public class db extends SQLiteOpenHelper {
         String createTableSanPham = "CREATE TABLE SanPham (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ten TEXT NOT NULL, " +
-                "so_luong INTEGER,"+
+                "so_luong INTEGER," +
                 "gia_tien INTEGER) ";
         db.execSQL(createTableSanPham);
 
         // Chèn dữ liệu vào bảng Sản phẩm
         db.execSQL("INSERT INTO SanPham (ten, so_luong, gia_tien) VALUES ('Áo sơ mi', 20, 250000), ('Quần jean', 10, 250000)");
 
+        //Tạo bảng thuộc tính sản phẩm
+        String createTableThuocTinhSanPham = "CREATE TABLE ThuocTinhSanPham (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id_thuoc_tinh INTEGER REFERENCES ThuocTinh(id)," +
+                "id_san_pham INTEGER REFERENCES SanPham(id)," +
+                "gia_tri TEXT NOT NULL )";
+        db.execSQL(createTableThuocTinhSanPham);
+
+        // Chèn dữ liệu vào bảng Thuộc tính sản phẩm
+        db.execSQL("INSERT INTO ThuocTinhSanPham (id_thuoc_tinh,id_san_pham,gia_tri) VALUES (1,1,'Be'), (1,2,'Hồng'), (2,1,'Adidas'),(2,2,'Adidas'),(3,1,'L'),(3,2,'XL')");
+
         // Tạo bảng Giỏ hàng
         String createTableGioHang = "CREATE TABLE GioHang (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_khach_hang INTEGER REFERENCES KhachHang(id), " +
-                "FOREIGN KEY (id_khach_hang) REFERENCES KhachHang(id))" ;
+                "FOREIGN KEY (id_khach_hang) REFERENCES KhachHang(id))";
         db.execSQL(createTableGioHang);
 
         // Chèn dữ liệu vào bảng Giỏ hàng
@@ -122,6 +133,7 @@ public class db extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         if (i != i1) {
             db.execSQL("drop table if exists ThuocTinh");
+            db.execSQL("drop table if exists ThuocTinhSanPham");
             db.execSQL("drop table if exists SanPham");
             db.execSQL("drop table if exists ThuocTinhSanPham");
             db.execSQL("drop table if exists KhachHang");

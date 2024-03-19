@@ -34,7 +34,6 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHode
     public DonHangAdapter(Context context, ArrayList<DonHang> listDH) {
         this.context = context;
         list = listDH;
-        donHangChiTietDao = new DonHangChiTietDao(context);
     }
 
     @NonNull
@@ -64,15 +63,12 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHode
             holder.txtTrangThai.setTextColor(Color.parseColor("#F42936"));
         }
         if (chiTietDonHangAdapter == null) {
-
+            donHangChiTietDao = new DonHangChiTietDao(context);
             listCT = donHangChiTietDao.getList();
             chiTietDonHangAdapter = new ChiTietDonHangAdapter(context, listCT);
             holder.rcvSanPham.setAdapter(chiTietDonHangAdapter);
             holder.rcvSanPham.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-
         }
-
     }
 
     @Override

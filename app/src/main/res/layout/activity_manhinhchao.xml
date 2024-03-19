@@ -9,26 +9,5 @@
     tools:context=".ManHinhChao"
     tools:ignore="MissingClass">
 
-    <!-- TextView để hiển thị tên ứng dụng -->
-    <TextView
-        android:id="@+id/appname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#F44336"
-        android:text="WELCOME"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20dp" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottie"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true"
-        android:elevation="5dp"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="https://lottie.host/67bfabfe-8b9c-4032-a8c8-d109bb7ffdf4/RZKyUmc9OY.json" />
 
 </RelativeLayout>
