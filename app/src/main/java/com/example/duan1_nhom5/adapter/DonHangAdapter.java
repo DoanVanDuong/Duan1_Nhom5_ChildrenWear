@@ -23,7 +23,9 @@ import com.example.duan1_nhom5.dao.DonHangChiTietDao;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHolder> {
     private Context context;
@@ -35,7 +37,7 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
         this.context = context;
         this.list = list;
         donHangChiTietDao = new DonHangChiTietDao(context);
-        donHangDao=new DonHangDao(context);
+        donHangDao = new DonHangDao(context);
     }
 
     @NonNull
@@ -72,6 +74,7 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
                     donHangDao.delete(donHang.getId());
                     list.remove(position);
                     notifyDataSetChanged();
+
                     Toast.makeText(holder.itemView.getContext(), "Hủy thành công", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 });
@@ -87,10 +90,13 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
                 alertDialogBuilder.setTitle("Xác nhận đơn hàng");
                 alertDialogBuilder.setMessage("Đơn hàng sẽ được xác nhận?");
                 alertDialogBuilder.setPositiveButton("Có", (dialog, which) -> {
-                    donHangDao.updateNameAndStatus(donHang.getId(),"duong",1);
+                    donHangDao.updateNameAndStatus(donHang.getId(), "duong", 1);
                     list.get(position).setTenNV("duong");
                     list.get(position).setTrangThai(1);
+                    ArrayList<DonHangChiTiet> listCT = donHangChiTietDao.getList(donHang.getId());
+                    donHangChiTietDao.updateProductQuantities(listCT);
                     notifyDataSetChanged();
+
                     Toast.makeText(holder.itemView.getContext(), "Xác nhận thành công đơn hàng", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 });
@@ -133,5 +139,7 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
             linearLayout = itemView.findViewById(R.id.lilButon);
             rcvSanPham = itemView.findViewById(R.id.rcvQLDHSanPham);
         }
-    };
+    }
+
+    ;
 }

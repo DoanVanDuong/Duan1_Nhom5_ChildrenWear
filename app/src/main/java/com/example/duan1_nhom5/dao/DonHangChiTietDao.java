@@ -8,8 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.duan1_nhom5.DBHelper.db;
 import com.example.duan1_nhom5.model.DonHangChiTiet;
+import com.example.duan1_nhom5.model.SanPham;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DonHangChiTietDao {
     private SQLiteDatabase db;
@@ -41,7 +44,7 @@ public class DonHangChiTietDao {
                 chiTietDonHang.setIdDH(cursor.getInt(cursor.getColumnIndex("id_don_hang")));
                 chiTietDonHang.setIdSP(cursor.getInt(cursor.getColumnIndex("id_san_pham")));
                 chiTietDonHang.setSoLuong(cursor.getInt(cursor.getColumnIndex("so_luong")));
-                chiTietDonHang.setGia(cursor.getInt(cursor.getColumnIndex("gia_tien"))*cursor.getInt(cursor.getColumnIndex("so_luong")));
+                chiTietDonHang.setGia(cursor.getInt(cursor.getColumnIndex("gia_tien")) * cursor.getInt(cursor.getColumnIndex("so_luong")));
                 chiTietDonHang.setTenSP(cursor.getString(cursor.getColumnIndex("tenSanPham")));
                 chiTietDonHang.setMau(cursor.getString(cursor.getColumnIndex("mauSac")));
                 chiTietDonHang.setKichThuoc(cursor.getString(cursor.getColumnIndex("kichThuoc")));
@@ -53,6 +56,7 @@ public class DonHangChiTietDao {
         db.close();
         return chiTietDonHangList;
     }
+
     public boolean deleteByDonHangId(int donHangId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = db.delete("ChiTietDonHang", "id_don_hang=?", new String[]{String.valueOf(donHangId)});
@@ -74,6 +78,7 @@ public class DonHangChiTietDao {
         // Kiểm tra xem việc thêm chi tiết đơn hàng có thành công hay không
         return result != -1;
     }
+
     public int getTotalPriceByDonHangId(int donHangId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -91,5 +96,36 @@ public class DonHangChiTietDao {
         return totalPrice;
     }
 
+    public void updateProductQuantities(ArrayList<DonHangChiTiet> chiTietDonHangList) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        for (DonHangChiTiet chiTietDonHang : chiTietDonHangList) {
+            int maSanPham = chiTietDonHang.getIdSP();
+            int soLuongChiTiet = chiTietDonHang.getSoLuong();
+            int soLuongHienTai = getProductQuantityFromDatabase(db, maSanPham);
+            int soLuongMoi = soLuongHienTai - soLuongChiTiet;
+            updateProductQuantityInDatabase(db, maSanPham, soLuongMoi);
+        }
+
+        db.close();
+    }
+
+    private int getProductQuantityFromDatabase(SQLiteDatabase db, int maSanPham) {
+        int soLuongHienTai = 0;
+        String query = "SELECT so_luong FROM SanPham WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(maSanPham)});
+        if (cursor.moveToFirst()) {
+            soLuongHienTai = cursor.getInt(cursor.getColumnIndex("so_luong"));
+        }
+        cursor.close();
+        return soLuongHienTai;
+    }
+
+    private void updateProductQuantityInDatabase(SQLiteDatabase db, int maSanPham, int soLuongMoi) {
+        ContentValues values = new ContentValues();
+        values.put("so_luong", soLuongMoi);
+        db.update("SanPham", values, "id = ?", new String[]{String.valueOf(maSanPham)});
+    }
 }
+
 
