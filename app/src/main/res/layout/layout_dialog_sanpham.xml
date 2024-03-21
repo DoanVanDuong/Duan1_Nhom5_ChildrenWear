@@ -13,24 +13,10 @@
         android:inputType="text" />
 
     <EditText
-        android:id="@+id/editTextQuantity"
+        android:id="@+id/editTextColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Số lượng"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/editTextPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Giá tiền"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/editTextBrand"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hãng"
+        android:hint="Màu sắc"
         android:inputType="text" />
 
     <EditText
@@ -41,17 +27,27 @@
         android:inputType="text" />
 
     <EditText
-        android:id="@+id/editTextColor"
+        android:id="@+id/editTextBrand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Màu sắc"
+        android:hint="Hãng"
         android:inputType="text" />
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/editTextPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:hint="Giá tiền"
+        android:inputType="number" />
 
 
-    </LinearLayout>
+    <EditText
+        android:id="@+id/editTextQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số lượng"
+        android:inputType="number" />
+
+
 </LinearLayout>
+
