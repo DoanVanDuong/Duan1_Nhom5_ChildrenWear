@@ -32,18 +32,19 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_qlysp, parent, false);
-        return new ViewHolder(view);    }
+        return new ViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         SanPham sanPham = list.get(position);
-        holder.textViewName.setText(String.valueOf(sanPham.getName()));
-        holder.textViewQuantity.setText(String.valueOf(sanPham.getQuantity()));
-        holder.textViewPrice.setText(String.valueOf(sanPham.getPrice()));
-        holder.textViewBrand.setText(String.valueOf(sanPham.getBrand()));
-        holder.textViewSize.setText(String.valueOf(sanPham.getSize()));
-        holder.textViewColor.setText(String.valueOf(sanPham.getColor()));
+        holder.textViewName.setText("Tên: " + sanPham.getName());
+        holder.textViewQuantity.setText("Số lượng: " + sanPham.getQuantity());
+        holder.textViewPrice.setText("Giá: " + sanPham.getPrice());
+        holder.textViewColor.setText("Màu: " + sanPham.getColor());
+        holder.textViewSize.setText("Size: " + sanPham.getSize());
+        holder.textViewBrand.setText("Thương hiệu: " + sanPham.getBrand());
 
     }
 
@@ -67,5 +68,5 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> {
             textViewQuantity = itemView.findViewById(R.id.textViewQuantity);
             imggiohang = itemView.findViewById(R.id.imggiohang);
         }
-}
+    }
 }
