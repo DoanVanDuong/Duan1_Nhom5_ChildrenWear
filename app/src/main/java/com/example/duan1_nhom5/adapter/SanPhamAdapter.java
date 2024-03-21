@@ -41,12 +41,12 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SanPham sanPham = list.get(position);
-        holder.textViewName.setText(String.valueOf(sanPham.getName()));
-        holder.textViewQuantity.setText(String.valueOf(sanPham.getQuantity()));
-        holder.textViewPrice.setText(String.valueOf(sanPham.getPrice()));
-        holder.textViewBrand.setText(String.valueOf(sanPham.getBrand()));
-        holder.textViewSize.setText(String.valueOf(sanPham.getSize()));
-        holder.textViewColor.setText(String.valueOf(sanPham.getColor()));
+        holder.textViewName.setText("Tên: " + sanPham.getName());
+        holder.textViewColor.setText("Màu: " + sanPham.getColor());
+        holder.textViewSize.setText("Size: " + sanPham.getSize());
+        holder.textViewBrand.setText("Thương hiệu: " + sanPham.getBrand());
+        holder.textViewPrice.setText("Giá: " + sanPham.getPrice());
+        holder.textViewQuantity.setText("Số lượng: " + sanPham.getQuantity());
 
         // Xóa sản phẩm
         holder.imgxoa.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +74,11 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
         builder.setView(view);
 
         final TextView editTextName = view.findViewById(R.id.editTextName);
-        final TextView editTextQuantity = view.findViewById(R.id.editTextQuantity);
-        final TextView editTextPrice = view.findViewById(R.id.editTextPrice);
-        final TextView editTextBrand = view.findViewById(R.id.editTextBrand);
-        final TextView editTextSize = view.findViewById(R.id.editTextSize);
         final TextView editTextColor = view.findViewById(R.id.editTextColor);
+        final TextView editTextSize = view.findViewById(R.id.editTextSize);
+        final TextView editTextBrand = view.findViewById(R.id.editTextBrand);
+        final TextView editTextPrice = view.findViewById(R.id.editTextPrice);
+        final TextView editTextQuantity = view.findViewById(R.id.editTextQuantity);
 
         editTextName.setText(sanPham.getName());
         editTextQuantity.setText(String.valueOf(sanPham.getQuantity()));
@@ -92,11 +92,11 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
             public void onClick(DialogInterface dialog, int which) {
                 // Lấy thông tin mới từ các EditText
                 String newName = editTextName.getText().toString();
-                String quantityText = editTextQuantity.getText().toString();
-                String priceText = editTextPrice.getText().toString();
-                String newBrand = editTextBrand.getText().toString();
-                String newSize = editTextSize.getText().toString();
                 String newColor = editTextColor.getText().toString();
+                String newSize = editTextSize.getText().toString();
+                String newBrand = editTextBrand.getText().toString();
+                String priceText = editTextPrice.getText().toString();
+                String quantityText = editTextQuantity.getText().toString();
 
                 if (newName.isEmpty() || quantityText.isEmpty() || priceText.isEmpty() || newSize.isEmpty() || newColor.isEmpty() || newBrand.isEmpty()) {
                     Toast.makeText(context, "Vui lòng nhập đầy đủ thông tin sản phẩm", Toast.LENGTH_SHORT).show();
@@ -114,7 +114,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
                 }
 
                 // Cập nhật thông tin sản phẩm trong danh sách và cơ sở dữ liệu
-                SanPham updatedSanPham = new SanPham(sanPham.getId(), newName, newQuantity, newPrice, newBrand, newSize, newColor);
+                SanPham updatedSanPham = new SanPham(sanPham.getId(), newName, newQuantity, newPrice, newColor, newSize,newBrand );
                 list.set(position, updatedSanPham);
                 sanPhamDao.updateProduct(updatedSanPham);
 
@@ -123,6 +123,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
                 notifyDataSetChanged();
             }
         });
+
 
 
         builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
