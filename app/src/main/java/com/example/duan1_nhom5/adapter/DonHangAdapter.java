@@ -133,5 +133,5 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
             linearLayout = itemView.findViewById(R.id.lilButon);
             rcvSanPham = itemView.findViewById(R.id.rcvQLDHSanPham);
         }
-    }
+    };
 }
