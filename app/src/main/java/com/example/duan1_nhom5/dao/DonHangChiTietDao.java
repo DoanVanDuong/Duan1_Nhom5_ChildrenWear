@@ -64,21 +64,6 @@ public class DonHangChiTietDao {
         return result > 0;
     }
 
-    public boolean add(int idDonHang, int idSanPham, int soLuong, int giaTien) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("id_don_hang", idDonHang);
-        values.put("id_san_pham", idSanPham);
-        values.put("so_luong", soLuong);
-        values.put("gia_tien", giaTien);
-
-        long result = db.insert("ChiTietDonHang", null, values);
-        db.close();
-
-        // Kiểm tra xem việc thêm chi tiết đơn hàng có thành công hay không
-        return result != -1;
-    }
-
     public int getTotalPriceByDonHangId(int donHangId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 

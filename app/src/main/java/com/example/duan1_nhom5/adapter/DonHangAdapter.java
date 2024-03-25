@@ -90,8 +90,9 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
                 alertDialogBuilder.setTitle("Xác nhận đơn hàng");
                 alertDialogBuilder.setMessage("Đơn hàng sẽ được xác nhận?");
                 alertDialogBuilder.setPositiveButton("Có", (dialog, which) -> {
-                    donHangDao.updateNameAndStatus(donHang.getId(), "duong", 1);
-                    list.get(position).setTenNV("duong");
+                    donHangDao.updateNameAndStatus(donHang.getId(), 1, 1);
+                    list.get(position).setTenNV("Nguyễn Thị B");
+                    list.get(position).setIdNV(1);
                     list.get(position).setTrangThai(1);
                     ArrayList<DonHangChiTiet> listCT = donHangChiTietDao.getList(donHang.getId());
                     donHangChiTietDao.updateProductQuantities(listCT);
