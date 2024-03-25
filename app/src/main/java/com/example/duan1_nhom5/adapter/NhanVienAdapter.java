@@ -44,7 +44,7 @@ public class NhanVienAdapter  extends RecyclerView.Adapter<NhanVienAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.id.setText(list.get(position).getId());
+        holder.id.setText(String.valueOf(list.get(position).getId()));
         holder.ten.setText(list.get(position).getTenNV());
         holder.email.setText(list.get(position).getEmail());
         holder.diachi.setText(list.get(position).getDiachi());

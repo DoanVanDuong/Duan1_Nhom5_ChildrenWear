@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.duan1_nhom5.DBHelper.db;
 import com.example.duan1_nhom5.model.DonHang;
 import com.example.duan1_nhom5.model.DonHangChiTiet;
+import com.example.duan1_nhom5.model.NhanVien;
 import com.example.duan1_nhom5.model.SanPham;
 
 import java.text.ParseException;
@@ -116,6 +117,29 @@ public class DonHangDao {
         // Kiểm tra xem việc thêm đơn hàng có thành công hay không
         return result != -1;
     }
+    public NhanVien getNhanVienByUsernameAndPassword(String username, String password) {
+        NhanVien nhanVien = null;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
+        String query = "SELECT * FROM NhanVien WHERE username = ? AND pass = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username, password});
+
+        if (cursor.moveToFirst()) {
+            nhanVien = new NhanVien();
+            // Lấy thông tin nhân viên từ dòng dữ liệu trả về
+            nhanVien.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            nhanVien.setTenNV(cursor.getString(cursor.getColumnIndex("ten")));
+            nhanVien.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            nhanVien.setSDT(cursor.getString(cursor.getColumnIndex("sdt")));
+            nhanVien.setDiachi(cursor.getString(cursor.getColumnIndex("dia_chi")));
+            nhanVien.setUsername(cursor.getString(cursor.getColumnIndex("username")));
+            nhanVien.setPassword(cursor.getString(cursor.getColumnIndex("pass")));
+            nhanVien.setChucvu(cursor.getString(cursor.getColumnIndex("chuc_vu")));
+        }
+
+        cursor.close();
+        db.close();
+        return nhanVien;
+    }
 
 }

@@ -1,5 +1,5 @@
 package com.example.duan1_nhom5.model;public class NhanVien {
-    private String id;
+    private int id;
     private String tenNV;
     private String email;
     private String SDT;
@@ -11,7 +11,7 @@ package com.example.duan1_nhom5.model;public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(String id, String tenNV, String email, String SDT, String diachi, String username, String password, String chucvu) {
+    public NhanVien(int id, String tenNV, String email, String SDT, String diachi, String username, String password, String chucvu) {
         this.id = id;
         this.tenNV = tenNV;
         this.email = email;
@@ -22,21 +22,11 @@ package com.example.duan1_nhom5.model;public class NhanVien {
         this.chucvu = chucvu;
     }
 
-    public NhanVien(String tenNV, String email, String SDT, String diachi, String username, String password, String chucvu) {
-        this.tenNV = tenNV;
-        this.email = email;
-        this.SDT = SDT;
-        this.diachi = diachi;
-        this.username = username;
-        this.password = password;
-        this.chucvu = chucvu;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -48,12 +38,12 @@ package com.example.duan1_nhom5.model;public class NhanVien {
         this.tenNV = tenNV;
     }
 
-    public String getDiachi() {
-        return diachi;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDiachi(String diachi) {
-        this.diachi = diachi;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSDT() {
@@ -64,12 +54,12 @@ package com.example.duan1_nhom5.model;public class NhanVien {
         this.SDT = SDT;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDiachi() {
+        return diachi;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDiachi(String diachi) {
+        this.diachi = diachi;
     }
 
     public String getUsername() {

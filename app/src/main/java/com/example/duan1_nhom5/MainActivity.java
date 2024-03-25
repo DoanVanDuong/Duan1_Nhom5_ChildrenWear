@@ -56,13 +56,17 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_donhang).setVisible(false);
 
+        }else if(user.equals("admin")&&pass.equals("admin")) {
+            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_giohang).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(true);
         }else if(check1==true) {
             navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(false);
-        }else {
-            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_giohang).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(true);
         }
 

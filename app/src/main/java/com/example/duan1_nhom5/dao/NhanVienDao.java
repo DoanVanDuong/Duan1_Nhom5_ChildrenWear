@@ -30,7 +30,7 @@ public class NhanVienDao {
         if(cursor.getCount()>0){
             cursor.moveToFirst();
             do{
-                list.add(new NhanVien(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7)));
+                list.add(new NhanVien(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7)));
 
             }while (cursor.moveToNext());
         }
@@ -73,7 +73,7 @@ public class NhanVienDao {
         long check=sqLiteDatabase.update("NhanVien",contentValues,"id=?",new String[]{String.valueOf(nhanVien.getId())});
         return check !=-1;
     }
-    public  boolean XoaNV(String id){
+    public  boolean XoaNV(int id){
         SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
         int check=sqLiteDatabase.delete("NhanVien","id=?",new String[]{String.valueOf(id)});
         return check !=-1;
