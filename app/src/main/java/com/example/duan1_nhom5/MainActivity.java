@@ -53,17 +53,17 @@ public class MainActivity extends AppCompatActivity {
         boolean check1= nhanVienDao.kiemTraTonTai(user,pass);
 
         if (check==true) {
-            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(true);
-
-        }else if(check1==true) {
-            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
-        }else {
             navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(false);
+
+        }else if(check1==true) {
+            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(false);
+        }else {
+            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(true);
         }
 
 
