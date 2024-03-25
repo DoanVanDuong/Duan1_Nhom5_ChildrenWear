@@ -15,8 +15,8 @@ import com.example.duan1_nhom5.dao.KhachHangDao;
 import com.example.duan1_nhom5.dao.NhanVienDao;
 
 public class DangNhap extends AppCompatActivity {
-private KhachHangDao khachHangDao;
-private NhanVienDao nhanVienDao;
+    private KhachHangDao khachHangDao;
+    private NhanVienDao nhanVienDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,12 @@ private NhanVienDao nhanVienDao;
                 boolean check= khachHangDao.kiemTraTonTai(user,pass);
                 boolean check1= nhanVienDao.kiemTraTonTai(user,pass);
 
-                if(check==true||check1==true||user.equalsIgnoreCase("adm")&&pass.equalsIgnoreCase("adm")){
+                if(check==true||check1==true||user.equalsIgnoreCase("admin")&&pass.equalsIgnoreCase("admin")){
+                    SharedPreferences preferences1 = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences1.edit();
+                    editor.putString("username", user);
+                    editor.putString("password", pass);
+                    editor.apply();
                     Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DangNhap.this, MainActivity.class);
                     intent.putExtra("username", user);
@@ -63,6 +68,6 @@ private NhanVienDao nhanVienDao;
                     Toast.makeText(DangNhap.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                 }
 
-                }
+            }
         });    }
 }
