@@ -1,5 +1,6 @@
 package com.example.duan1_nhom5;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 
+import com.example.duan1_nhom5.dao.KhachHangDao;
+import com.example.duan1_nhom5.dao.NhanVienDao;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -24,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
+    private KhachHangDao khachHangDao;
+    private NhanVienDao nhanVienDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +39,34 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
+        Intent intent = getIntent();
+        String user = intent.getStringExtra("username");
+        String pass = intent.getStringExtra("password");
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         ImageView circularImageView = binding.navView.getHeaderView(0).findViewById(R.id.imageView);
+
+        khachHangDao=new KhachHangDao(this);
+        nhanVienDao=new NhanVienDao(this);
+        boolean check= khachHangDao.kiemTraTonTai(user,pass);
+        boolean check1= nhanVienDao.kiemTraTonTai(user,pass);
+
+        if (check==true) {
+            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(true);
+
+        }else if(check1==true) {
+            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
+        }else {
+            navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(false);
+        }
+
+
 
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.embe);
 
