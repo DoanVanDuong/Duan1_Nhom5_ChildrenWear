@@ -19,4 +19,5 @@ public class DoiMatKhauFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_doi_mat_khau, container, false);
     }
+
 }
