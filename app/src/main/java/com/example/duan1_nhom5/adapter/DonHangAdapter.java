@@ -1,6 +1,7 @@
 package com.example.duan1_nhom5.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.duan1_nhom5.dao.DonHangDao;
 import com.example.duan1_nhom5.model.DonHang;
 import com.example.duan1_nhom5.model.DonHangChiTiet;
 import com.example.duan1_nhom5.dao.DonHangChiTietDao;
+import com.example.duan1_nhom5.model.NhanVien;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -90,12 +92,17 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
                 alertDialogBuilder.setTitle("Xác nhận đơn hàng");
                 alertDialogBuilder.setMessage("Đơn hàng sẽ được xác nhận?");
                 alertDialogBuilder.setPositiveButton("Có", (dialog, which) -> {
-                    donHangDao.updateNameAndStatus(donHang.getId(), "duong", 1);
-                    list.get(position).setTenNV("duong");
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+                    String username = sharedPreferences.getString("username", "");
+                    String password = sharedPreferences.getString("password", "");
+                    NhanVien nhanVien=donHangDao.getNhanVienByUsernameAndPassword(username,password);
+                    donHangDao.updateNameAndStatus(donHang.getId(), nhanVien.getId(), 1);
+                    list.get(position).setTenNV(nhanVien.getTenNV());
                     list.get(position).setTrangThai(1);
                     ArrayList<DonHangChiTiet> listCT = donHangChiTietDao.getList(donHang.getId());
                     donHangChiTietDao.updateProductQuantities(listCT);
                     notifyDataSetChanged();
+
 
                     Toast.makeText(holder.itemView.getContext(), "Xác nhận thành công đơn hàng", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();

@@ -153,6 +153,12 @@
                     android:layout_marginLeft="5dp"
                     android:text="1000"
                     android:textColor="#853636" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="VNĐ"
+                    android:textColor="#853636" />
 
             </LinearLayout>
 

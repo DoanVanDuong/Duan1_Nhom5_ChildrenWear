@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.duan1_nhom5.DBHelper.db;
 import com.example.duan1_nhom5.model.DonHang;
+import com.example.duan1_nhom5.model.DonHangChiTiet;
+import com.example.duan1_nhom5.model.NhanVien;
+import com.example.duan1_nhom5.model.SanPham;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,26 +67,79 @@ public class DonHangDao {
         db.close();
         return result > 0;
     }
-    public boolean updateNameAndStatus(int id, String tenNV, int trangThai) {
+    public boolean updateNameAndStatus(int id, int idNV, int trangThai) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id_nhan_vien", tenNV);
+        values.put("id_nhan_vien", idNV);
         values.put("trang_thai", trangThai);
         int result = db.update("DonHang", values, "id=?", new String[]{String.valueOf(id)});
         db.close();
         return result > 0;
     }
-    public boolean add(int idNV, int idKH, int tongTien, int trangThai) {
+    public boolean add(int idKH, int tongTien, int trangThai, ArrayList<SanPham> SanPham) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // Lấy ngày hiện tại
+        Date currentDate = new Date();
+        long timestamp = currentDate.getTime(); // Chuyển đổi Date thành long
+
         ContentValues values = new ContentValues();
-        values.put("id_nhan_vien", idNV);
         values.put("id_khach_hang", idKH);
         values.put("tong_tien", tongTien);
+        values.put("ngay_mua", timestamp); // Sử dụng ngày hiện tại
         values.put("trang_thai", trangThai);
         long result = db.insert("DonHang", null, values);
+
+        if (result != -1 && SanPham != null) {
+            // Lấy ID của đơn hàng vừa thêm vào
+            String query = "SELECT last_insert_rowid()";
+            Cursor cursor = db.rawQuery(query, null);
+            int donHangId = -1;
+            if (cursor.moveToFirst()) {
+                donHangId = cursor.getInt(0);
+            }
+            cursor.close();
+
+            // Thêm dữ liệu vào bảng DonHangChiTiet
+            if (donHangId != -1) {
+                for (SanPham sp : SanPham) {
+                    ContentValues chiTietValues = new ContentValues();
+                    chiTietValues.put("id_don_hang", donHangId);
+                    chiTietValues.put("id_san_pham", sp.getId());
+                    chiTietValues.put("so_luong",sp.getQuantity());
+                    chiTietValues.put("gia_tien",sp.getPrice()*sp.getQuantity() );
+                    db.insert("ChiTietDonHang", null, chiTietValues);
+                }
+            }
+        }
+
         db.close();
         // Kiểm tra xem việc thêm đơn hàng có thành công hay không
         return result != -1;
+    }
+    public NhanVien getNhanVienByUsernameAndPassword(String username, String password) {
+        NhanVien nhanVien = null;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT * FROM NhanVien WHERE username = ? AND pass = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username, password});
+
+        if (cursor.moveToFirst()) {
+            nhanVien = new NhanVien();
+            // Lấy thông tin nhân viên từ dòng dữ liệu trả về
+            nhanVien.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            nhanVien.setTenNV(cursor.getString(cursor.getColumnIndex("ten")));
+            nhanVien.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            nhanVien.setSDT(cursor.getString(cursor.getColumnIndex("sdt")));
+            nhanVien.setDiachi(cursor.getString(cursor.getColumnIndex("dia_chi")));
+            nhanVien.setUsername(cursor.getString(cursor.getColumnIndex("username")));
+            nhanVien.setPassword(cursor.getString(cursor.getColumnIndex("pass")));
+            nhanVien.setChucvu(cursor.getString(cursor.getColumnIndex("chuc_vu")));
+        }
+
+        cursor.close();
+        db.close();
+        return nhanVien;
     }
 
 }
