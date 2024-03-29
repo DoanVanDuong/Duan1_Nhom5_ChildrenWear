@@ -1,3 +1,4 @@
+
 package com.example.duan1_nhom5.dao;
 
 import android.content.ContentValues;
@@ -51,5 +52,24 @@ public class GioHangDao {
 
         return result != -1;
 
+    }
+    public int layIdGioHangTuUsernameVaMatKhau(String username, String password) {
+        int idGioHang = -1;
+
+        SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+        String query = "SELECT gh.id " +
+                "FROM GioHang gh " +
+                "JOIN KhachHang kh ON gh.id_khach_hang = kh.id " +
+                "WHERE kh.username = ? AND kh.pass = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username, password});
+
+        if (cursor.moveToFirst()) {
+            idGioHang = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+
+        return idGioHang;
     }
 }

@@ -1,4 +1,5 @@
 package com.example.duan1_nhom5.model;public class GioHang {
+
     public   int id,id_Khach_Hang;
 
     public GioHang() {
@@ -19,4 +20,5 @@ package com.example.duan1_nhom5.model;public class GioHang {
     public void setId_Khach_Hang(int id_Khach_Hang) {
         this.id_Khach_Hang = id_Khach_Hang;
     }
+
 }
