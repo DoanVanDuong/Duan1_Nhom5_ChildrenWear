@@ -6,14 +6,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.duan1_nhom5.DBHelper.db;
+import com.example.duan1_nhom5.model.GioHang;
 import com.example.duan1_nhom5.model.KhachHang;
 
 import java.util.ArrayList;
 
 public class KhachHangDao {
     private db dbHelper;
+    private GioHangDao gioHangDao;
+    private GioHang gioHang;
     public KhachHangDao(Context context){
         dbHelper=new db(context);
+        gioHangDao=new GioHangDao(context);
+
+
     }
     //login
     public int CheckLogin(String usename,String password){
@@ -62,18 +68,31 @@ public class KhachHangDao {
         long check=sqLiteDatabase.update("KhachHang",contentValues,"username=?",new String[]{user});
         return check !=-1;
     }
-    public boolean Register(String tenkh,String emailkh,String diachi,String SDT,String user,String pass){
-        SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("ten",tenkh);
-        contentValues.put("email",emailkh);
-        contentValues.put("dia_chi",diachi);
-        contentValues.put("sdt",SDT);
-        contentValues.put("username",user);
-        contentValues.put("pass",pass);
+    public boolean Register(String tenkh, String emailkh, String diachi, String SDT, String user, String pass) {
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ten", tenkh);
+        contentValues.put("email", emailkh);
+        contentValues.put("dia_chi", diachi);
+        contentValues.put("sdt", SDT);
+        contentValues.put("username", user);
+        contentValues.put("pass", pass);
 
-        long check=sqLiteDatabase.insert("KhachHang",null,contentValues);
-        return check !=-1;
+        // Thêm khách hàng mới vào bảng KhachHang
+        long khachHangId = sqLiteDatabase.insert("KhachHang", null, contentValues);
 
+        if (khachHangId != -1) {
+            // Nếu thêm khách hàng thành công, tạo giỏ hàng mới cho khách hàng
+            ContentValues gioHangValues = new ContentValues();
+            gioHangValues.put("id_khach_hang", khachHangId);
+            // Chèn giỏ hàng mới vào bảng GioHang
+            long gioHangCheck = sqLiteDatabase.insert("GioHang", null, gioHangValues);
+
+            // Trả về true nếu cả hai thao tác đều thành công
+            return gioHangCheck != -1;
+        } else {
+            // Trả về false nếu không thể thêm khách hàng mới
+            return false;
+        }
     }
 }
