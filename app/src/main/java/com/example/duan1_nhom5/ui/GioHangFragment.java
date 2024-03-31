@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,30 +22,38 @@ import android.widget.Toast;
 
 import com.example.duan1_nhom5.R;
 import com.example.duan1_nhom5.adapter.GioHangAdapder;
+import com.example.duan1_nhom5.dao.DonHangDao;
 import com.example.duan1_nhom5.dao.GioHangChiTietDao;
 import com.example.duan1_nhom5.dao.GioHangDao;
 import com.example.duan1_nhom5.dao.KhachHangDao;
+import com.example.duan1_nhom5.model.DonHangChiTiet;
 import com.example.duan1_nhom5.model.GioHang;
 import com.example.duan1_nhom5.model.GioHangChiTiet;
 import com.example.duan1_nhom5.model.KhachHang;
 import com.example.duan1_nhom5.model.NhanVien;
+import com.example.duan1_nhom5.model.SanPham;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class GioHangFragment extends Fragment {
     RecyclerView recyclerView;
     GioHangAdapder gioHangAdapter;
     GioHangDao gioHangDao;
-    int idGioHang;
+    int idGioHang,idKH,tong;
 
     GioHangChiTietDao gioHangChiTietDao;
+    DonHangDao donHangDao;
     Button btnCuahang,btnDathang;
 
     private ArrayList<GioHangChiTiet> list= new ArrayList<>();
+    private ArrayList<SanPham> listSP= new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gio_hang, container, false);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");
@@ -63,17 +72,32 @@ public class GioHangFragment extends Fragment {
         btnDathang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GioHang gioHang= new GioHang();
-                list.clear();
-                // Thông báo cho RecyclerView biết rằng dữ liệu đã thay đổi
-                gioHangAdapter.notifyDataSetChanged();
 
-                // Hiển thị thông báo hoặc thực hiện các công việc khác sau khi đặt hàng thành công
-                Toast.makeText(getContext(), "Đặt Hàng Thành Công", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Đặt Hàng Thành Công", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                alertDialogBuilder.setTitle("Xác nhận đơn hàng");
+                alertDialogBuilder.setMessage("Đơn hàng sẽ được gửi ?");
+                alertDialogBuilder.setPositiveButton("Có", (dialog, which) -> {
+                    listSP = gioHangDao.getList(idGioHang);
+                    idKH = gioHangDao.getUserIdByUsernameAndPassword(username, password);
+                    tong = gioHangDao.tinhTongTien(listSP);
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String date=dateFormat.format(currentDate);
+                    donHangDao = new DonHangDao(getContext());
+                    donHangDao.add(idKH, tong, 0 ,date, listSP);
+                    Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    gioHangDao.xoaHetGioHangChiTiet(idGioHang);
+                });
+                alertDialogBuilder.setNegativeButton("Không", (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                });
 
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
+
         btnCuahang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

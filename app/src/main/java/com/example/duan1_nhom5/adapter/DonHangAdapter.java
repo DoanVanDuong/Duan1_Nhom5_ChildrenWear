@@ -25,6 +25,7 @@ import com.example.duan1_nhom5.model.NhanVien;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
         holder.txtMaDonHang.setText(String.valueOf(donHang.getId()));
         holder.txtTenKhachHang.setText(donHang.getTenKH());
         holder.txtTenNhanVien.setText(donHang.getTenNV());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String ngayMuaFormatted = dateFormat.format(donHang.getNgayMua());
         holder.txtNgayMua.setText(ngayMuaFormatted);
         holder.txtTongTien.setText(String.valueOf(donHang.getTongTien()));
