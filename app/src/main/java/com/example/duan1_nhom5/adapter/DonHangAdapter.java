@@ -35,6 +35,7 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
     private ArrayList<DonHang> list;
     private DonHangDao donHangDao;
     private DonHangChiTietDao donHangChiTietDao;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     public DonHangAdapter(Context context, ArrayList<DonHang> list) {
         this.context = context;
@@ -56,7 +57,6 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
         holder.txtMaDonHang.setText(String.valueOf(donHang.getId()));
         holder.txtTenKhachHang.setText(donHang.getTenKH());
         holder.txtTenNhanVien.setText(donHang.getTenNV());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String ngayMuaFormatted = dateFormat.format(donHang.getNgayMua());
         holder.txtNgayMua.setText(ngayMuaFormatted);
         holder.txtTongTien.setText(String.valueOf(donHang.getTongTien()));

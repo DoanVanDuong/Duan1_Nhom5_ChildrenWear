@@ -1,4 +1,5 @@
 package com.example.duan1_nhom5.model;
+
 public class SanPham {
     private int id;
     private String name;
@@ -7,11 +8,12 @@ public class SanPham {
     private String color;
     private String size;
     private String brand;
+    private int status; // Trường trạng thái
 
     public SanPham() {
     }
 
-    public SanPham(int id, String name, int quantity, int price, String color, String size, String brand) {
+    public SanPham(int id, String name, int quantity, int price, String color, String size, String brand, int status) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -19,15 +21,17 @@ public class SanPham {
         this.color = color;
         this.size = size;
         this.brand = brand;
+        this.status = status;
     }
 
-    public SanPham(String name, int quantity, int price, String color, String size, String brand) {
+    public SanPham(String name, int quantity, int price, String color, String size, String brand, int status) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.color = color;
         this.size = size;
         this.brand = brand;
+        this.status = status;
     }
 
     public int getId() {
@@ -84,5 +88,13 @@ public class SanPham {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

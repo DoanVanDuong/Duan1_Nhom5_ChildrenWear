@@ -80,10 +80,10 @@ public class GioHangFragment extends Fragment {
                 idKH = gioHangDao.getUserIdByUsernameAndPassword(username, password);
                 tong = gioHangDao.tinhTongTien(listSP);
                 Date currentDate = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                 String date=dateFormat.format(currentDate);
-                  SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
-                String date1=dateFormat.format(currentDate);
+                  SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+                String date1=dateFormat1.format(currentDate);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 alertDialogBuilder.setTitle("Xác nhận đơn hàng");
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.iteam_add_qldonhang, null);

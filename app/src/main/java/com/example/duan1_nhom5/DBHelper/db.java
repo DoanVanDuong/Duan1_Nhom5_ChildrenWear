@@ -8,7 +8,8 @@ import androidx.annotation.Nullable;
 
 public class db extends SQLiteOpenHelper {
     public static final String DB_NAME = "CHQA";
-    public static final int DB_VERSION = 12 ;
+    public static final int DB_VERSION = 15;
+
 
     public db(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -30,11 +31,12 @@ public class db extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ten TEXT NOT NULL, " +
                 "so_luong INTEGER," +
-                "gia_tien INTEGER) ";
+                "gia_tien INTEGER," +
+                "trang_thai INTEGER NOT NULL DEFAULT 0)"; // Thêm cột trạng thái
         db.execSQL(createTableSanPham);
 
         // Chèn dữ liệu vào bảng Sản phẩm
-        db.execSQL("INSERT INTO SanPham (ten, so_luong, gia_tien) VALUES ('Áo sơ mi', 20, 250000), ('Quần jean', 10, 250000)");
+        db.execSQL("INSERT INTO SanPham (ten, so_luong, gia_tien, trang_thai) VALUES ('Áo sơ mi', 20, 250000, 1), ('Quần jean', 10, 250000, 0)");
 
         //Tạo bảng thuộc tính sản phẩm
         String createTableThuocTinhSanPham = "CREATE TABLE ThuocTinhSanPham (" +
@@ -113,7 +115,7 @@ public class db extends SQLiteOpenHelper {
         db.execSQL(createTableDonHang);
 
         // Chèn dữ liệu vào bảng Đơn hàng
-        db.execSQL("INSERT INTO DonHang (id_khach_hang, id_nhan_vien, ngay_mua, trang_thai, tong_tien) VALUES (1, 1, '2024-03-14', 1, 750000),(1,'', '2024-03-14', 0, 250000)");
+        db.execSQL("INSERT INTO DonHang (id_khach_hang, id_nhan_vien, ngay_mua, trang_thai, tong_tien) VALUES (1, 1, '2024/03/14', 1, 750000),(1,'', '2024/03/14', 0, 250000)");
 
         // Tạo bảng Chi tiết đơn hàng
         String createTableChiTietDonHang = "CREATE TABLE ChiTietDonHang (" +
