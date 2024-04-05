@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.duan1_nhom5.R;
@@ -69,6 +70,7 @@ public class GioHangFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btnCuahang=view.findViewById(R.id.btnCuaHang);
         btnDathang=view.findViewById(R.id.btnDatHang);
+
         btnDathang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
