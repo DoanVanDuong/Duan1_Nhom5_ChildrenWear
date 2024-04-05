@@ -25,17 +25,11 @@ public class DangNhap extends AppCompatActivity {
         EditText edtUser=findViewById(R.id.edtUser);
         EditText edtPass=findViewById(R.id.edtPass);
         Button btnLogin=findViewById(R.id.btnLogin);
-        TextView txtForgot=findViewById(R.id.txtForgot);
+
         TextView txtSignUp=findViewById(R.id.txtSignUp);
         khachHangDao =new KhachHangDao(this);
         nhanVienDao =new NhanVienDao(this);
-        txtForgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DangNhap.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+
         txtSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

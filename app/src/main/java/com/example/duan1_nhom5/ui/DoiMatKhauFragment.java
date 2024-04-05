@@ -1,18 +1,27 @@
 package com.example.duan1_nhom5.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.duan1_nhom5.DangKy;
+import com.example.duan1_nhom5.DangNhap;
 import com.example.duan1_nhom5.R;
+import com.example.duan1_nhom5.dao.KhachHangDao;
 
 
 public class DoiMatKhauFragment extends Fragment {
-
+    KhachHangDao khachHangDao;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -20,4 +29,54 @@ public class DoiMatKhauFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_doi_mat_khau, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        EditText edtUse=view.findViewById(R.id.edtUser);
+        EditText edtPas=view.findViewById(R.id.edtPass);
+        EditText newPas=view.findViewById(R.id.edtnewpass);
+        EditText renewPas=view.findViewById(R.id.edtrenewPass);
+        Button Save=view.findViewById(R.id.btnSAVE);
+        Button Thoat=view.findViewById(R.id.btnThoat);
+
+        khachHangDao=new KhachHangDao(getContext());
+
+
+
+        Save.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                String use=edtUse.getText().toString();
+                String Pas=edtPas.getText().toString();
+                String newpa=newPas.getText().toString();
+                String renew=renewPas.getText().toString();
+                boolean checktk=khachHangDao.kiemTraTonTai(use,Pas);
+                if(checktk==false){
+                    Toast.makeText(getContext(), "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+
+                }else if(!newpa.equals(renew)){
+                    Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                }else{
+                    boolean check=khachHangDao.DoiMK(use,newpa);
+                    if(check) {
+                        Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), DangNhap.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(getContext(), "Đổi mk thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        Thoat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DangNhap.class);
+                startActivity(intent);
+            }
+        });
+
+    }
 }
