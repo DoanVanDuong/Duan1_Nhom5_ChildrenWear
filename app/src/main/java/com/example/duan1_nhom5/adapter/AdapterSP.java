@@ -2,11 +2,14 @@ package com.example.duan1_nhom5.adapter;
 
 import static java.security.AccessController.getContext;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -74,7 +77,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
                 String password = sharedPreferences.getString("password", "");
                 gioHangDao =new GioHangDao(context.getApplicationContext());
                 idGioHang= gioHangDao.layIdGioHangTuUsernameVaMatKhau(username,password);
-                gioHangChiTietDao.add(sanPham.getId(),idGioHang, 3);
+                gioHangChiTietDao.add(sanPham.getId(),idGioHang);
                 // Thêm sản phẩm vào giỏ hàng
 
                 Toast.makeText(holder.itemView.getContext(), "Đã cho vào giỏ hàng  Thành Công", Toast.LENGTH_SHORT).show();

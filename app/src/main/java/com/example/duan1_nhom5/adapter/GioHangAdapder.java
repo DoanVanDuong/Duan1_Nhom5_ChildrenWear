@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +23,12 @@ import java.util.ArrayList;
 
 public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHolder> {
     private Context context;
+    int soLuong=0;
     private ArrayList<GioHang> list;
     private GioHangDao gioHangDao;
     private GioHangChiTietDao gioHangChiTietDao;
     private ArrayList<GioHangChiTiet> list1;
+
 
     public GioHangAdapder(Context context, ArrayList<GioHangChiTiet> list1) {
         this.context = context;
@@ -45,13 +48,33 @@ public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         GioHangChiTiet gioHangChiTiet= list1.get(position);
-        holder.txtID.setText(String.valueOf(gioHangChiTiet.getId()));
         holder.txtTen.setText(gioHangChiTiet.getTenSP());
-        holder.txtMau.setText(gioHangChiTiet.getMau());
-        holder.txtSize.setText(gioHangChiTiet.getSize());
-        holder.txtSoLuong.setText(String.valueOf(gioHangChiTiet.getSoLuong()));
+        holder.btnTang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soLuong++;
+                holder.txtSoLuong.setText(String.valueOf(soLuong));
+                gioHangChiTiet.setSoLuong(String.valueOf(soLuong));
+                gioHangChiTietDao.updateSoLuong(gioHangChiTiet);
+
+            }
+        });
+        holder.btnGiam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (soLuong > 0) {
+                    soLuong--;
+                    holder.txtSoLuong.setText(String.valueOf(soLuong));
+                    gioHangChiTiet.setSoLuong(String.valueOf(soLuong));
+                    gioHangChiTietDao.updateSoLuong(gioHangChiTiet);
+                } else {
+                    // Hiển thị thông báo khi số lượng đã là 0
+                    Toast.makeText(holder.itemView.getContext(), "Số lượng không thể nhỏ hơn 0", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         holder.txtGia.setText(String.valueOf(gioHangChiTiet.getGiaTien()));
-        holder.txtHang.setText(gioHangChiTiet.getHang());
         holder.btnHuy.setOnClickListener(v -> {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -75,6 +98,7 @@ public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHold
             alertDialog.show();
         });
 
+
     }
 
     @Override
@@ -83,19 +107,19 @@ public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
+        ImageButton btnTang,btnGiam,btnHuy;
+        TextView txtTen, txtMau, txtSize, txtSoLuong, txtGia,txtHang,txtID,txtTong;
 
-        TextView txtTen, txtMau, txtSize, txtSoLuong, txtGia,txtHang,txtID;
-        Button btnHuy;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtID=itemView.findViewById(R.id.lvId);
+            btnGiam=itemView.findViewById(R.id.btnGiam);
+            btnTang=itemView.findViewById(R.id.btnTang);
             txtTen = itemView.findViewById(R.id.lvTen);
-            txtMau = itemView.findViewById(R.id.lvMau);
-            txtSize = itemView.findViewById(R.id.lvSize);
+
             txtSoLuong = itemView.findViewById(R.id.lvSoLuong);
             txtGia = itemView.findViewById(R.id.lvGia);
-            txtHang=itemView.findViewById(R.id.lvHang);
-            btnHuy=itemView.findViewById(R.id.btnHuy);
+
+            btnHuy=itemView.findViewById(R.id.btnHuyGH);
         }
     }
     }

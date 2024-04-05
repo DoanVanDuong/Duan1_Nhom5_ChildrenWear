@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class GioHangChiTietDao {
     private SQLiteDatabase db;
     private SQLiteOpenHelper dbHelper;
+    GioHangChiTiet hangChiTiet;
 
     public GioHangChiTietDao(Context context) {
         dbHelper = new db(context);
@@ -56,17 +57,24 @@ public class GioHangChiTietDao {
         return  reslt>0;
 
     }
-    public boolean add(int idSanPham,int idGioHang,int soLuong){
+    public boolean add(int idSanPham,int idGioHang){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
         values.put("id_gio_hang",idGioHang);
         values.put("id_san_pham",idSanPham);
 
-        values.put("so_luong",soLuong);
-
         long result =db.insert("GioHangChiTiet",null,values);
         db.close();
         return result != -1;
 
+    }
+    public boolean updateSoLuong(GioHangChiTiet gioHangChiTiet){
+        SQLiteDatabase db= dbHelper.getWritableDatabase();
+        ContentValues values= new ContentValues();
+        values.put("so_luong",gioHangChiTiet.getSoLuong());
+        String select= "id_san_pham=?";
+        String[] selectArgs={String.valueOf(gioHangChiTiet.getId_San_Pham())};
+       db.update("GioHangChiTiet",values,select,selectArgs);
+       return false ;
     }
 }

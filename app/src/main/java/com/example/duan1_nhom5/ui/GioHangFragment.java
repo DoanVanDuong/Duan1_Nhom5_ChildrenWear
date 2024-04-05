@@ -72,6 +72,7 @@ public class GioHangFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btnCuahang=view.findViewById(R.id.btnCuaHang);
         btnDathang=view.findViewById(R.id.btnDatHang);
+
         btnDathang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
