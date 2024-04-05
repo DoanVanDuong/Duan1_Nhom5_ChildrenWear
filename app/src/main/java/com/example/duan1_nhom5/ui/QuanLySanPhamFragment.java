@@ -68,6 +68,8 @@ public class QuanLySanPhamFragment extends Fragment {
         final EditText editTextBrand = view.findViewById(R.id.editTextBrand);
         final EditText editTextSize = view.findViewById(R.id.editTextSize);
         final EditText editTextColor = view.findViewById(R.id.editTextColor);
+        final EditText editTextStatus = view.findViewById(R.id.editTextStatus); // Khai báo EditText cho trạng thái
+
 
         builder.setPositiveButton("Thêm", new DialogInterface.OnClickListener() {
             @Override
@@ -79,6 +81,7 @@ public class QuanLySanPhamFragment extends Fragment {
                 String size = editTextSize.getText().toString();
                 String color = editTextColor.getText().toString();
                 String brand = editTextBrand.getText().toString();
+                int status = Integer.parseInt(editTextStatus.getText().toString());
 
                 // Kiểm tra xem các trường dữ liệu có đầy đủ không
                 if (name.isEmpty() || quantityText.isEmpty() || priceText.isEmpty() || size.isEmpty() || color.isEmpty() || brand.isEmpty()) {
@@ -96,9 +99,8 @@ public class QuanLySanPhamFragment extends Fragment {
                     return;
                 }
 
-
                 // Tạo đối tượng sản phẩm mới
-                SanPham newProduct = new SanPham(name, quantity, price, size, color, brand);
+                SanPham newProduct = new SanPham(name, quantity, price, size, color, brand, status);
 
                 // Thêm sản phẩm mới vào cơ sở dữ liệu
                 sanPhamDao.addProduct(newProduct);
@@ -106,6 +108,12 @@ public class QuanLySanPhamFragment extends Fragment {
                 // Cập nhật danh sách sản phẩm trên RecyclerView
                 list.add(newProduct);
                 sanPhamAdapter.notifyDataSetChanged();
+                if (quantity > 0) {
+                    editTextStatus.setText("Còn hàng");
+                } else {
+                    editTextStatus.setText("Hết hàng");
+                }
+
 
                 // Hiển thị thông báo thành công
                 Toast.makeText(getContext(), "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();

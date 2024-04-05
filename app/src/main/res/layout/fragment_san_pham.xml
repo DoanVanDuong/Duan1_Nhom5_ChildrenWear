@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SanPhamFragment">
+    android:orientation="vertical">
 
+    <!-- ViewPager -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
+    <!-- Filter layout -->
     <LinearLayout
         android:id="@+id/filter_layout"
         android:layout_width="match_parent"
@@ -42,16 +46,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:src="@drawable/baseline_filter_alt_24" />
-
-
     </LinearLayout>
 
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rycsp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/edit_text_min_price"
-        android:layout_marginTop="56dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingTop="8dp" />
 
-</FrameLayout>
+</LinearLayout>

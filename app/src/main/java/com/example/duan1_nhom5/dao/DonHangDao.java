@@ -42,7 +42,7 @@ public class DonHangDao {
                 donHang.setIdKH(cursor.getInt(cursor.getColumnIndex("id_khach_hang")));
                 donHang.setIdNV(cursor.getInt(cursor.getColumnIndex("id_nhan_vien")));
                 String ngayMuaString = cursor.getString(cursor.getColumnIndex("ngay_mua"));
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
                 try {
                     Date ngayMuaDate = dateFormat.parse(ngayMuaString);
                     donHang.setNgayMua(ngayMuaDate);

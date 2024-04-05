@@ -50,6 +50,8 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
         holder.textViewColor.setText("Màu: " + sanPham.getColor());
         holder.textViewSize.setText("Size: " + sanPham.getSize());
         holder.textViewBrand.setText("Thương hiệu: " + sanPham.getBrand());
+        holder.textViewStatus.setText("Trạng thái: " + (sanPham.getQuantity() > 0 ? "Còn hàng" : "Hết hàng"));
+
     }
 
     @Override
@@ -89,7 +91,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName, textViewColor, textViewSize, textViewBrand, textViewPrice, textViewQuantity;
+        TextView textViewName, textViewColor, textViewSize, textViewBrand, textViewPrice, textViewQuantity, textViewStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,6 +101,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
             textViewBrand = itemView.findViewById(R.id.textViewBrand);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             textViewQuantity = itemView.findViewById(R.id.textViewQuantity);
+            textViewStatus = itemView.findViewById(R.id.textViewStatus);
         }
     }
 }
