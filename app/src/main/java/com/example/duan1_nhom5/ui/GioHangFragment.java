@@ -101,7 +101,7 @@ public class GioHangFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialogBuilder1 = new AlertDialog.Builder(getContext());
-                        alertDialogBuilder1.setTitle("Xác nhận gui");
+                        alertDialogBuilder1.setTitle("Xác nhận gửi");
                         alertDialogBuilder1.setMessage("Đơn hàng của bạn sẽ được gửi ?");
                         alertDialogBuilder1.setPositiveButton("Có", (dialog, which) -> {
                                 donHangDao = new DonHangDao(getContext());
