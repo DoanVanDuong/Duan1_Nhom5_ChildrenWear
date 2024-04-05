@@ -76,19 +76,15 @@ public class DonHangDao {
         db.close();
         return result > 0;
     }
-    public boolean add(int idKH, int tongTien, int trangThai, ArrayList<SanPham> SanPham) {
+    public boolean add(int idKH, int tongTien, int trangThai,String date, ArrayList<SanPham> SanPham) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        // Lấy ngày hiện tại
-        Date currentDate = new Date();
-        long timestamp = currentDate.getTime(); // Chuyển đổi Date thành long
-
         ContentValues values = new ContentValues();
         values.put("id_khach_hang", idKH);
         values.put("tong_tien", tongTien);
-        values.put("ngay_mua", timestamp); // Sử dụng ngày hiện tại
+        values.put("ngay_mua", date);
         values.put("trang_thai", trangThai);
         long result = db.insert("DonHang", null, values);
+
 
         if (result != -1 && SanPham != null) {
             // Lấy ID của đơn hàng vừa thêm vào

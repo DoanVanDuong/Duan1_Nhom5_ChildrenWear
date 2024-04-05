@@ -81,7 +81,7 @@ public class QuanLySanPhamFragment extends Fragment {
                 String size = editTextSize.getText().toString();
                 String color = editTextColor.getText().toString();
                 String brand = editTextBrand.getText().toString();
-                int status = Integer.parseInt(editTextStatus.getText().toString());
+                String statusText = editTextStatus.getText().toString();
 
                 // Kiểm tra xem các trường dữ liệu có đầy đủ không
                 if (name.isEmpty() || quantityText.isEmpty() || priceText.isEmpty() || size.isEmpty() || color.isEmpty() || brand.isEmpty()) {
@@ -89,9 +89,16 @@ public class QuanLySanPhamFragment extends Fragment {
                     return;
                 }
 
-                // Chuyển đổi số lượng và giá thành kiểu số nguyên
-                int quantity = Integer.parseInt(quantityText);
-                int price = Integer.parseInt(priceText);
+// Chuyển đổi số lượng và giá thành kiểu số nguyên
+                int quantity, price, status;
+                try {
+                    quantity = Integer.parseInt(quantityText);
+                    price = Integer.parseInt(priceText);
+                    status = Integer.parseInt(statusText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getContext(), "Vui lòng nhập số nguyên hợp lệ cho số lượng, giá và trạng thái", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // Kiểm tra số lượng và giá có lớn hơn 0 không
                 if (quantity < 0 || price <= 0) {

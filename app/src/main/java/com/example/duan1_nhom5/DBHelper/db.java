@@ -8,7 +8,8 @@ import androidx.annotation.Nullable;
 
 public class db extends SQLiteOpenHelper {
     public static final String DB_NAME = "CHQA";
-    public static final int DB_VERSION = 14;
+    public static final int DB_VERSION = 15;
+
 
     public db(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -68,8 +69,9 @@ public class db extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_san_pham) REFERENCES SanPham(id))";
         db.execSQL(createTableGioHangChiTiet);
 
-        // Chèn dữ liệu vào bảng Giỏ hàng chi tiết
-        db.execSQL("INSERT INTO GioHangChiTiet (id_gio_hang, id_san_pham, so_luong) VALUES (1, 1, 2), (1, 2, 1)");
+
+        db.execSQL("INSERT INTO GioHangChiTiet (id_gio_hang, id_san_pham, so_luong) VALUES (1, 1, 2),(1,2,2)");
+
 
         // Tạo bảng Khách hàng
         String createTableKhachHang = "CREATE TABLE KhachHang (" +

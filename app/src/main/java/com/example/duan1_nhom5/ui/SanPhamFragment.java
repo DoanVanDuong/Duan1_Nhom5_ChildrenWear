@@ -51,9 +51,9 @@ public class SanPhamFragment extends Fragment {
 
         // Thêm các ảnh sản phẩm vào mImageIds
         mImageIds = new ArrayList<>();
-        mImageIds.add(R.drawable.anh1);
-        mImageIds.add(R.drawable.chaomung);
-        mImageIds.add(R.drawable.embe);
+        mImageIds.add(R.drawable.banner3);
+        mImageIds.add(R.drawable.banner4);
+        mImageIds.add(R.drawable.banner5);
 
         // Khởi tạo và thiết lập adapter cho ViewPager
         mAdapter = new SlideShowPagerAdapter(requireContext(), mImageIds);

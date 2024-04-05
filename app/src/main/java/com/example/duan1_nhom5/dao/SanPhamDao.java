@@ -58,7 +58,7 @@ public class SanPhamDao {
         values.put("ten", sanPham.getName());
         values.put("so_luong", sanPham.getQuantity());
         values.put("gia_tien", sanPham.getPrice());
-        values.put("trang_thai", sanPham.getStatus());
+        values.put("trang_thai",1);
 
         // Thêm dữ liệu vào bảng SanPham
         long productId = db.insert("SanPham", null, values);
