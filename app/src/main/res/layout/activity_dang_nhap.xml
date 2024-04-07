@@ -55,7 +55,13 @@
             android:layout_marginTop="10dp"
             android:textAllCaps="true"/>
     </LinearLayout>
-
+    <CheckBox
+        android:id="@+id/checkbox_remember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ghi nhớ tài khoản"
+        android:checked="false"
+        android:layout_gravity="center"/>
     <TextView
         android:id="@+id/txtSignUp"
         android:layout_width="wrap_content"

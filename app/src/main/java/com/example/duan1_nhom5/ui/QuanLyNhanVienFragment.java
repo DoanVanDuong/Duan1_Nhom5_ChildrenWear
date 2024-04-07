@@ -92,10 +92,11 @@ public class QuanLyNhanVienFragment extends Fragment {
                 String cv=ChucVu.getText().toString();
                 String use=User.getText().toString();
                 String pass=Pass.getText().toString();
+                String trangthai="Đang làm";
                 if(tennv.length()==0||emailnv.length()==0||diachi.length()==0||sdt.length()==0||cv.length()==0||use.length()==0||pass.length()==0){
                     Toast.makeText(getContext(), "Không được để trống", Toast.LENGTH_SHORT).show();
                 }else{
-                    NhanVien nhanVien=new NhanVien(1,tennv,emailnv,sdt,diachi,use,pass,cv);
+                    NhanVien nhanVien=new NhanVien(1,tennv,emailnv,sdt,diachi,use,pass,cv,trangthai);
                     boolean check= nhanVienDao.themNV(nhanVien);
                     if(check){
                         Toast.makeText(getContext(), "Thêm thành viên thành công", Toast.LENGTH_SHORT).show();

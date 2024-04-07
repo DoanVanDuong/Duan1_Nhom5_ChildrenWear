@@ -8,10 +8,20 @@ package com.example.duan1_nhom5.model;public class NhanVien {
     private String password;
     private String chucvu;
 
+    private String trangthai;
+
+    public String getTrangthai() {
+        return trangthai;
+    }
+
+    public void setTrangthai(String trangthai) {
+        this.trangthai = trangthai;
+    }
+
     public NhanVien() {
     }
 
-    public NhanVien(int id, String tenNV, String email, String SDT, String diachi, String username, String password, String chucvu) {
+    public NhanVien(int id, String tenNV, String email, String SDT, String diachi, String username, String password, String chucvu, String trangthai) {
         this.id = id;
         this.tenNV = tenNV;
         this.email = email;
@@ -20,6 +30,7 @@ package com.example.duan1_nhom5.model;public class NhanVien {
         this.username = username;
         this.password = password;
         this.chucvu = chucvu;
+        this.trangthai = trangthai;
     }
 
     public int getId() {

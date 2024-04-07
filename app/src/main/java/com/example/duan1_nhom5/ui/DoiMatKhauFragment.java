@@ -18,10 +18,12 @@ import com.example.duan1_nhom5.DangKy;
 import com.example.duan1_nhom5.DangNhap;
 import com.example.duan1_nhom5.R;
 import com.example.duan1_nhom5.dao.KhachHangDao;
+import com.example.duan1_nhom5.dao.NhanVienDao;
 
 
 public class DoiMatKhauFragment extends Fragment {
     KhachHangDao khachHangDao;
+    NhanVienDao nhanVienDao;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class DoiMatKhauFragment extends Fragment {
         Button Thoat=view.findViewById(R.id.btnThoat);
 
         khachHangDao=new KhachHangDao(getContext());
-
+        nhanVienDao=new NhanVienDao(getContext());
 
 
         Save.setOnClickListener(new View.OnClickListener() {
@@ -52,22 +54,43 @@ public class DoiMatKhauFragment extends Fragment {
                 String Pas=edtPas.getText().toString();
                 String newpa=newPas.getText().toString();
                 String renew=renewPas.getText().toString();
-                boolean checktk=khachHangDao.kiemTraTonTai(use,Pas);
-                if(checktk==false){
-                    Toast.makeText(getContext(), "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                boolean checktkkh=khachHangDao.kiemTraTonTai(use,Pas);
+                boolean checktknv= nhanVienDao.DoiMK(use,Pas);
 
-                }else if(!newpa.equals(renew)){
-                    Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
-                }else{
-                    boolean check=khachHangDao.DoiMK(use,newpa);
-                    if(check) {
-                        Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getContext(), DangNhap.class);
-                        startActivity(intent);
+                if(use.equals("")||Pas.equals("")||newpa.equals("")||renew.equals("")){
+                    Toast.makeText(getContext(), "Không được để trống", Toast.LENGTH_SHORT).show();
+                }else if(checktkkh==true){
+                    if(!newpa.equals(renew)){
+                        Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(getContext(), "Đổi mk thất bại", Toast.LENGTH_SHORT).show();
+                        boolean check=khachHangDao.DoiMK(use,newpa);
+                        if(check) {
+                            Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), DangNhap.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(getContext(), "Đổi mk thất bại", Toast.LENGTH_SHORT).show();
+                        }
                     }
+                }else if(checktknv==true){
+                    if(!newpa.equals(renew)){
+                        Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                    }else{
+                        boolean check=nhanVienDao.DoiMK(use,newpa);
+                        if(check) {
+                            Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), DangNhap.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(getContext(), "Đổi mk thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                 }
+
+
+
             }
         });
         Thoat.setOnClickListener(new View.OnClickListener() {
