@@ -39,7 +39,7 @@ public class GioHangChiTietDao {
                 gioHangChiTiet.setId_San_Pham(cursor.getInt(cursor.getColumnIndex("id_san_pham")));
                 gioHangChiTiet.setMau(cursor.getString(cursor.getColumnIndex("mauSac")));
                 gioHangChiTiet.setSize(cursor.getString(cursor.getColumnIndex("kichThuoc")));
-                gioHangChiTiet.setSoLuong(cursor.getString(cursor.getColumnIndex("so_luong")));
+                gioHangChiTiet.setSoLuong(cursor.getInt(cursor.getColumnIndex("so_luong")));
                 gioHangChiTiet.setTenSP(cursor.getString(cursor.getColumnIndex("tenSanPham")));
                 gioHangChiTiet.setHang(cursor.getString(cursor.getColumnIndex("Hang")));
                 gioHangChiTiet.setGiaTien(cursor.getInt(cursor.getColumnIndex("gia_tien")));

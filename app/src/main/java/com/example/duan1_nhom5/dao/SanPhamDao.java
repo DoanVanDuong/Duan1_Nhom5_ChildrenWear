@@ -49,6 +49,18 @@ public class SanPhamDao {
         cursor.close();
         return productList;
     }
+    public int getSoLuongSanPham(int idSanPham) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        int soLuong = 0;
+        String query = "SELECT so_luong FROM SanPham WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idSanPham)});
+        if (cursor.moveToFirst()) {
+            soLuong = cursor.getInt(cursor.getColumnIndex("so_luong"));
+        }
+        cursor.close();
+        db.close();
+        return soLuong;
+    }
 
     public long addProduct(SanPham sanPham) {
         ContentValues values = new ContentValues();

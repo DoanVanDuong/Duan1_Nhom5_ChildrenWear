@@ -79,17 +79,29 @@ public class GioHangFragment extends Fragment {
                 alertDialogBuilder.setTitle("Xác nhận đơn hàng");
                 alertDialogBuilder.setMessage("Đơn hàng sẽ được gửi ?");
                 alertDialogBuilder.setPositiveButton("Có", (dialog, which) -> {
-                    listSP = gioHangDao.getList(idGioHang);
-                    idKH = gioHangDao.getUserIdByUsernameAndPassword(username, password);
-                    tong = gioHangDao.tinhTongTien(listSP);
-                    Date currentDate = new Date();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String date=dateFormat.format(currentDate);
-                    donHangDao = new DonHangDao(getContext());
-                    donHangDao.add(idKH, tong, 0 ,date, listSP);
-                    Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                    gioHangDao.xoaHetGioHangChiTiet(idGioHang);
+                    for (GioHangChiTiet gioHangChiTiet :list){
+                        int soLuong=gioHangChiTiet.getSoLuong();
+                        if(soLuong>0){
+                            listSP = gioHangDao.getList(idGioHang);
+                            idKH = gioHangDao.getUserIdByUsernameAndPassword(username, password);
+                            tong = gioHangDao.tinhTongTien(listSP);
+                            Date currentDate = new Date();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String date=dateFormat.format(currentDate);
+                            donHangDao = new DonHangDao(getContext());
+                            donHangDao.add(idKH, tong, 0 ,date, listSP);
+
+                            Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            gioHangDao.xoaHetGioHangChiTiet(idGioHang);
+                        }
+                        else {
+                            Toast.makeText(getContext(), "vui lòng nhập số lượng", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+
+                    }
+
                 });
                 alertDialogBuilder.setNegativeButton("Không", (dialogInterface, which) -> {
                     dialogInterface.dismiss();
