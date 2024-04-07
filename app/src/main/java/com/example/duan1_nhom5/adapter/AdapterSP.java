@@ -2,11 +2,14 @@ package com.example.duan1_nhom5.adapter;
 
 import static java.security.AccessController.getContext;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -66,6 +69,8 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
         holder.textViewColor.setText("Màu: " + sanPham.getColor());
         holder.textViewSize.setText("Size: " + sanPham.getSize());
         holder.textViewBrand.setText("Thương hiệu: " + sanPham.getBrand());
+        holder.textViewStatus.setText("Trạng thái: " + (sanPham.getQuantity() > 0 ? "Còn hàng" : "Hết hàng"));
+
         holder.imageThemSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +79,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
                 String password = sharedPreferences.getString("password", "");
                 gioHangDao =new GioHangDao(context.getApplicationContext());
                 idGioHang= gioHangDao.layIdGioHangTuUsernameVaMatKhau(username,password);
-                gioHangChiTietDao.add(sanPham.getId(),idGioHang, 3);
+                gioHangChiTietDao.add(sanPham.getId(),idGioHang);
                 // Thêm sản phẩm vào giỏ hàng
 
                 Toast.makeText(holder.itemView.getContext(), "Đã cho vào giỏ hàng  Thành Công", Toast.LENGTH_SHORT).show();
@@ -128,7 +133,8 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName, textViewColor, textViewSize, textViewBrand, textViewPrice, textViewQuantity;
+        TextView textViewName, textViewColor, textViewSize, textViewBrand, textViewPrice, textViewQuantity, textViewStatus;
+
         ImageView imageThemSP;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -138,6 +144,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
             textViewBrand = itemView.findViewById(R.id.textViewBrand);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             textViewQuantity = itemView.findViewById(R.id.textViewQuantity);
+            textViewStatus = itemView.findViewById(R.id.textViewStatus);
             imageThemSP=itemView.findViewById(R.id.imggiohang);
         }
     }

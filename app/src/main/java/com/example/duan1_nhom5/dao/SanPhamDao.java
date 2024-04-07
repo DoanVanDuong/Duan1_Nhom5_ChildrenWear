@@ -1,5 +1,6 @@
 package com.example.duan1_nhom5.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,7 +23,7 @@ public class SanPhamDao {
 
     public ArrayList<SanPham> getAllProductsWithDetails() {
         ArrayList<SanPham> productList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT SanPham.id, SanPham.ten, SanPham.so_luong, SanPham.gia_tien, " +
+        Cursor cursor = db.rawQuery("SELECT SanPham.id, SanPham.ten, SanPham.so_luong, SanPham.gia_tien, SanPham.trang_thai, " +
                 "(SELECT gia_tri_thuoc_tinh FROM ThuocTinhSanPham WHERE id_san_pham = SanPham.id " +
                 "AND id_thuoc_tinh = (SELECT id FROM ThuocTinh WHERE ten = 'Màu sắc')) AS mauSac, " +
                 "(SELECT gia_tri_thuoc_tinh FROM ThuocTinhSanPham WHERE id_san_pham = SanPham.id " +
@@ -31,7 +32,7 @@ public class SanPhamDao {
                 "AND id_thuoc_tinh = (SELECT id FROM ThuocTinh WHERE ten = 'Hãng')) AS hang " +
                 "FROM SanPham", null);
 
-        if (((Cursor) cursor).moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
                 SanPham product = new SanPham();
                 product.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -41,6 +42,7 @@ public class SanPhamDao {
                 product.setColor(cursor.getString(cursor.getColumnIndex("mauSac")));
                 product.setSize(cursor.getString(cursor.getColumnIndex("kichThuoc")));
                 product.setBrand(cursor.getString(cursor.getColumnIndex("hang")));
+                product.setStatus(cursor.getInt(cursor.getColumnIndex("trang_thai"))); // Thêm trường trạng thái
 
                 productList.add(product);
             } while (cursor.moveToNext());
@@ -50,11 +52,13 @@ public class SanPhamDao {
         return productList;
     }
 
+
     public long addProduct(SanPham sanPham) {
         ContentValues values = new ContentValues();
         values.put("ten", sanPham.getName());
         values.put("so_luong", sanPham.getQuantity());
         values.put("gia_tien", sanPham.getPrice());
+        values.put("trang_thai",1);
 
         // Thêm dữ liệu vào bảng SanPham
         long productId = db.insert("SanPham", null, values);
@@ -84,6 +88,7 @@ public class SanPhamDao {
     }
 
     // Phương thức này sẽ trả về id của thuộc tính dựa trên tên thuộc tính
+    @SuppressLint("Range")
     private int getIdForAttribute(String attributeName) {
         Cursor cursor = db.rawQuery("SELECT id FROM ThuocTinh WHERE ten = ?", new String[]{attributeName});
         int id = -1;
@@ -102,6 +107,7 @@ public class SanPhamDao {
         values.put("ten", sanPham.getName());
         values.put("so_luong", sanPham.getQuantity());
         values.put("gia_tien", sanPham.getPrice());
+        values.put("trang_thai", sanPham.getStatus());
 
         // Xác định điều kiện cập nhật (WHERE clause) cho bảng SanPham
         String selectionSanPham = "id=?";
