@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.duan1_nhom5.R;
+import com.example.duan1_nhom5.adapter.ChiTeitAddSPDonHang;
+import com.example.duan1_nhom5.adapter.ChiTietDonHangAdapter;
 import com.example.duan1_nhom5.adapter.GioHangAdapder;
 import com.example.duan1_nhom5.dao.DonHangDao;
 import com.example.duan1_nhom5.dao.GioHangChiTietDao;
@@ -74,9 +76,17 @@ public class GioHangFragment extends Fragment {
         btnDathang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listSP = gioHangDao.getList(idGioHang);
+                idKH = gioHangDao.getUserIdByUsernameAndPassword(username, password);
+                tong = gioHangDao.tinhTongTien(listSP);
+                Date currentDate = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                String date=dateFormat.format(currentDate);
+                  SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+                String date1=dateFormat1.format(currentDate);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 alertDialogBuilder.setTitle("Xác nhận đơn hàng");
+
                 alertDialogBuilder.setMessage("Đơn hàng sẽ được gửi ?");
                 alertDialogBuilder.setPositiveButton("Có", (dialog, which) -> {
                     for (GioHangChiTiet gioHangChiTiet :list){
@@ -106,9 +116,50 @@ public class GioHangFragment extends Fragment {
                 alertDialogBuilder.setNegativeButton("Không", (dialogInterface, which) -> {
                     dialogInterface.dismiss();
                 });
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.iteam_add_qldonhang, null);
+                alertDialogBuilder.setView(view);
+                TextView txtNgay=view.findViewById(R.id.txtNgayThue1);
+                TextView txtTongTien=view.findViewById(R.id.txtTongTien1);
+                RecyclerView rcv=view.findViewById(R.id.rcvQLDHSanPham1);
+                txtNgay.setText(date1);
+                txtTongTien.setText(String.valueOf(tong));
+                ChiTeitAddSPDonHang ct = new ChiTeitAddSPDonHang(getContext(), listSP);
+                rcv.setAdapter(ct);
+                rcv.setLayoutManager(new LinearLayoutManager(getContext()));
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+                view.findViewById(R.id.btnXacNhan1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder alertDialogBuilder1 = new AlertDialog.Builder(getContext());
+                        alertDialogBuilder1.setTitle("Xác nhận gửi");
+                        alertDialogBuilder1.setMessage("Đơn hàng của bạn sẽ được gửi ?");
+                        alertDialogBuilder1.setPositiveButton("Có", (dialog, which) -> {
+                                donHangDao = new DonHangDao(getContext());
+                                donHangDao.add(idKH, tong, 0 ,date, listSP);
+                                Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                gioHangDao.xoaHetGioHangChiTiet(idGioHang);
+                                alertDialog.dismiss();
+                            });
+                            alertDialogBuilder1.setNegativeButton("Không", (dialogInterface, which) -> {
+                                dialogInterface.dismiss();
+                            });
+
+                        AlertDialog alertDialog = alertDialogBuilder1.create();
+                        alertDialog.show();
+
+                    }
+                });
+               view.findViewById(R.id.btnHuy1).setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       alertDialog.dismiss();
+                   }
+               });
+
+
             }
         });
 

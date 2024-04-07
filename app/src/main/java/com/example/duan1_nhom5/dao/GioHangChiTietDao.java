@@ -62,6 +62,7 @@ public class GioHangChiTietDao {
         ContentValues values=new ContentValues();
         values.put("id_gio_hang",idGioHang);
         values.put("id_san_pham",idSanPham);
+        values.put("so_luong", 1);
 
         long result =db.insert("GioHangChiTiet",null,values);
         db.close();
