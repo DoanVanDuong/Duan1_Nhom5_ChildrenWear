@@ -85,8 +85,8 @@ public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHold
             public void onClick(View v) {
                 int sl = Integer.parseInt(holder.txtSoLuong.getText().toString()) -1;
 
-                if (sl<0){
-                    holder.txtSoLuong.setText("0");
+                if (sl<1){
+                    holder.txtSoLuong.setText("1");
                     Toast.makeText(holder.itemView.getContext(), "vui lòng không nhập số lượng bằng 0", Toast.LENGTH_SHORT).show();
                 }else {
                     holder.txtSoLuong.setText(""+sl);
