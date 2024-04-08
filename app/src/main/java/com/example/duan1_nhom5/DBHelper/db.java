@@ -99,11 +99,12 @@ public class db extends SQLiteOpenHelper {
                 "dia_chi TEXT, " +
                 "username TEXT NOT NULL, " +
                 "pass TEXT NOT NULL, " +
-                "chuc_vu TEXT NOT NULL)";
+                "chuc_vu TEXT NOT NULL," +
+                "trangthai TEXT NOT NULL)";
         db.execSQL(createTableNhanVien);
 
         // Chèn dữ liệu vào bảng Nhân viên
-        db.execSQL("INSERT INTO NhanVien (ten, email, sdt, dia_chi, username, pass, chuc_vu) VALUES ('Nguyễn Thị B', 'vinhtd01112@gmail.com', '0987654321', 'Hồ Chí Minh', 'nguyenthidb', '123456', 'nhavien'), ('Trần Đức Vinh', 'vinh04012004@gmail.com', '0987654321', 'Hồ Chí Minh', 'admin', 'admin', 'admin')");
+        db.execSQL("INSERT INTO NhanVien (ten, email, sdt, dia_chi, username, pass, chuc_vu,trangthai) VALUES ('Nguyễn Thị B', 'vinhtd@gmail.com', '0987654321', 'Hồ Chí Minh', 'nguyenthidb', '123456', 'nhavien','Đang làm'), ('Trần Đức Vinh', 'vinh04@gmail.com', '0987654321', 'Hồ Chí Minh', 'admin', 'admin', 'admin','Đang làm')");
 
         // Tạo bảng Đơn hàng
         String createTableDonHang = "CREATE TABLE DonHang (" +

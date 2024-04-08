@@ -50,15 +50,7 @@ public class KhachHangDao {
         }
         return false;
     }
-    public  boolean CheckEmail(String email,String mk){
 
-        SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("pass",mk);
-
-        long check=sqLiteDatabase.update("KhachHang",contentValues,"email=?",new String[]{email});
-        return check !=-1;
-    }
     public  boolean DoiMK(String user,String password){
 
         SQLiteDatabase sqLiteDatabase=dbHelper.getWritableDatabase();

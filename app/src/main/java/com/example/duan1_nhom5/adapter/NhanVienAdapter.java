@@ -52,29 +52,34 @@ public class NhanVienAdapter  extends RecyclerView.Adapter<NhanVienAdapter.ViewH
         holder.chucvu.setText(list.get(position).getChucvu());
         holder.user.setText(list.get(position).getUsername());
         holder.pass.setText(list.get(position).getPassword());
-        holder.hinhxoa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean check= nhanVienDao.XoaNV(list.get(holder.getAdapterPosition()).getId());
-                if(check){
-                    Toast.makeText(context, "Xóa nhân viên thành công", Toast.LENGTH_SHORT).show();
-                    list.clear();
-                    list=nhanVienDao.getDS();
-                    notifyDataSetChanged();
+        holder.trangthai.setText(list.get(position).getTrangthai());
 
-
-                }else{
-                    Toast.makeText(context, "Xóa nhân viên thất bại", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UpdateDiaLog(list.get(holder.getAdapterPosition()));
             }
         });
+        holder.doi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(list.get(position).getTrangthai().equalsIgnoreCase("Đang làm")){
+                    String ttmoi="Đã nghỉ";
+                    boolean checktt= nhanVienDao.DoiTrangThai(list.get(position).getId(),ttmoi);
+                    list.clear();
+                    list=nhanVienDao.getDS();
+                    notifyDataSetChanged();
+                }else{
+                    String ttmoi="Đang làm";
+                    boolean checktt= nhanVienDao.DoiTrangThai(list.get(position).getId(),ttmoi);
+                    list.clear();
+                    list=nhanVienDao.getDS();
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -82,8 +87,8 @@ public class NhanVienAdapter  extends RecyclerView.Adapter<NhanVienAdapter.ViewH
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-    TextView id,ten,email,diachi,sdt,chucvu,user,pass;
-    ImageView hinhxoa;
+    TextView id,ten,email,diachi,sdt,chucvu,user,pass,trangthai;
+    Button doi;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             id=itemView.findViewById(R.id.txtID);
@@ -94,7 +99,9 @@ public class NhanVienAdapter  extends RecyclerView.Adapter<NhanVienAdapter.ViewH
             chucvu=itemView.findViewById(R.id.txtChucVu);
             user=itemView.findViewById(R.id.txtUser);
             pass=itemView.findViewById(R.id.txtPass);
-            hinhxoa=itemView.findViewById(R.id.hinhdelete);
+            trangthai=itemView.findViewById(R.id.txtTrangThai);
+            doi=itemView.findViewById(R.id.btnTrangThai);
+
         }
     }
     public void UpdateDiaLog(NhanVien nhanVien){
@@ -136,11 +143,12 @@ public class NhanVienAdapter  extends RecyclerView.Adapter<NhanVienAdapter.ViewH
                 String CHUCVUUP=chucvu.getText().toString();
                 String USERUP=user.getText().toString();
                 String PASSUP=pass.getText().toString();
+                String TRANGTHAIUP="Đang làm";
 
                 if(TENUP.length()==0||EMAILUP.length()==0||DIACHIUP.length()==0||SDTUP.length()==0||CHUCVUUP.length()==0||USERUP.length()==0||PASSUP.length()==0){
                     Toast.makeText(context, "Không được để trống", Toast.LENGTH_SHORT).show();
                 }else{
-                    NhanVien nhanVien1=new NhanVien(nhanVien.getId(),TENUP,EMAILUP,SDTUP,DIACHIUP,USERUP,PASSUP,CHUCVUUP);
+                    NhanVien nhanVien1=new NhanVien(nhanVien.getId(),TENUP,EMAILUP,SDTUP,DIACHIUP,USERUP,PASSUP,CHUCVUUP,TRANGTHAIUP);
                     boolean check= nhanVienDao.updateNV(nhanVien1);
                     if(check){
                         Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show();

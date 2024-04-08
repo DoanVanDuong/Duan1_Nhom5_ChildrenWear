@@ -25,7 +25,7 @@ KhachHangDao khachHangDao;
         EditText email=findViewById(R.id.edtEmail);
         EditText name=findViewById(R.id.edtUsename);
         EditText pass=findViewById(R.id.edtPass);
-        EditText repass=findViewById(R.id.edtPass);
+        EditText repass=findViewById(R.id.edtRepass);
         Button signup=findViewById(R.id.btnSignUp);
         Button thoat=findViewById(R.id.btnThoatup);
         signup.setOnClickListener(new View.OnClickListener() {
