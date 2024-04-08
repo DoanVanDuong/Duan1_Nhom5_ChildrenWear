@@ -32,7 +32,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
 
     private Context context;
     private GioHangChiTietDao gioHangChiTietDao;
-    private ArrayList<SanPham> list;
+    public ArrayList<SanPham> list;
     private ArrayList<GioHangChiTiet> listGH;
     private GioHangChiTiet gioHangChiTiet;
     private ArrayList<SanPham> fullList; // Danh sách đầy đủ, không bị lọc
