@@ -35,6 +35,8 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
         Top top = topList.get(position);
         holder.textViewProductName.setText("Tên: "+top.getTenSanPham());
         holder.textViewQuantitySold.setText("Số lượng: "+String.valueOf(top.getSoLuongBan()));
+        holder.textViewBrand.setText("Thương hiệu: "+String.valueOf(top.getGia()));
+        holder.textViewProductPrice.setText("Giá: "+top.getGia());
     }
 
     @Override
@@ -44,12 +46,14 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewProductName;
-        TextView textViewQuantitySold;
+        TextView textViewQuantitySold, textViewBrand, textViewProductPrice;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewProductName = itemView.findViewById(R.id.textViewProductName);
             textViewQuantitySold = itemView.findViewById(R.id.textViewQuantitySold);
+            textViewBrand = itemView.findViewById(R.id.textViewBrand);
+            textViewProductPrice = itemView.findViewById(R.id.textViewProductPrice);
         }
     }
 }
