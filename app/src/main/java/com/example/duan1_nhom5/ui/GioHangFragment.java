@@ -82,7 +82,7 @@ public class GioHangFragment extends Fragment {
                 Date currentDate = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                 String date=dateFormat.format(currentDate);
-                  SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
                 String date1=dateFormat1.format(currentDate);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 alertDialogBuilder.setTitle("Xác nhận đơn hàng");
@@ -105,28 +105,28 @@ public class GioHangFragment extends Fragment {
                         alertDialogBuilder1.setTitle("Xác nhận gửi");
                         alertDialogBuilder1.setMessage("Đơn hàng của bạn sẽ được gửi ?");
                         alertDialogBuilder1.setPositiveButton("Có", (dialog, which) -> {
-                                donHangDao = new DonHangDao(getContext());
-                                donHangDao.add(idKH, tong, 0 ,date, listSP);
-                                Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                                gioHangDao.xoaHetGioHangChiTiet(idGioHang);
-                                alertDialog.dismiss();
-                            });
-                            alertDialogBuilder1.setNegativeButton("Không", (dialogInterface, which) -> {
-                                dialogInterface.dismiss();
-                            });
+                            donHangDao = new DonHangDao(getContext());
+                            donHangDao.add(idKH, tong, 0 ,date, listSP);
+                            Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            gioHangDao.xoaHetGioHangChiTiet(idGioHang);
+                            alertDialog.dismiss();
+                        });
+                        alertDialogBuilder1.setNegativeButton("Không", (dialogInterface, which) -> {
+                            dialogInterface.dismiss();
+                        });
 
                         AlertDialog alertDialog = alertDialogBuilder1.create();
                         alertDialog.show();
 
                     }
                 });
-               view.findViewById(R.id.btnHuy1).setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       alertDialog.dismiss();
-                   }
-               });
+                view.findViewById(R.id.btnHuy1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
 
 
             }
