@@ -41,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập password"
+            android:inputType="textPassword"
             android:background="@drawable/khung5"/>
         <Button
             android:id="@+id/btnLogin"
@@ -54,15 +55,13 @@
             android:layout_marginTop="10dp"
             android:textAllCaps="true"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtForgot"
+    <CheckBox
+        android:id="@+id/checkbox_remember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/forgot_password"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        />
+        android:text="Ghi nhớ tài khoản"
+        android:checked="false"
+        android:layout_gravity="center"/>
     <TextView
         android:id="@+id/txtSignUp"
         android:layout_width="wrap_content"

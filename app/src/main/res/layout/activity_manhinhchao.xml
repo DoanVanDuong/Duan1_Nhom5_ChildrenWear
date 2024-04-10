@@ -17,10 +17,11 @@
         android:layout_marginTop="40dp"/>
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="110dp"
+        android:id="@+id/chaomung"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/chaomung"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="80dp"/>
 
 </LinearLayout>
