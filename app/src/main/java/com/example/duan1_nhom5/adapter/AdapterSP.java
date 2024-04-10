@@ -111,7 +111,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
         return list.size();
     }
 
-    @Override
+@Override
     public Filter getFilter() {
         return new Filter() {
             @Override
