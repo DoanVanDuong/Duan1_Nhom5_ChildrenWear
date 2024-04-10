@@ -28,7 +28,7 @@ public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHold
     private ArrayList<GioHang> list;
     private GioHangDao gioHangDao;
     private GioHangChiTietDao gioHangChiTietDao;
-    private ArrayList<GioHangChiTiet> list1;
+    public ArrayList<GioHangChiTiet> list1;
     private SanPhamDao sanPhamDao;
 
 

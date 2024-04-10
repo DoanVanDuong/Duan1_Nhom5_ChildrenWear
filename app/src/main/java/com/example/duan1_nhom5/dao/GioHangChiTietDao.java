@@ -10,11 +10,13 @@ import com.example.duan1_nhom5.DBHelper.db;
 import com.example.duan1_nhom5.model.GioHangChiTiet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GioHangChiTietDao {
     private SQLiteDatabase db;
     private SQLiteOpenHelper dbHelper;
     GioHangChiTiet hangChiTiet;
+    public List<GioHangChiTiet> list;
 
     public GioHangChiTietDao(Context context) {
         dbHelper = new db(context);
@@ -50,6 +52,18 @@ public class GioHangChiTietDao {
         db.close();
         return gioHangChiTietList;
     }
+    public boolean checkSanPhamExistsInGioHangChiTiet(int idSanPham, int idGioHang) {
+        boolean exists = false;
+        if (db != null) {
+            String query = "SELECT * FROM GioHangChiTiet WHERE id_san_pham = ? AND id_gio_hang = ?";
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idSanPham), String.valueOf(idGioHang)});
+            if (cursor != null) {
+                exists = cursor.getCount() > 0;
+                cursor.close();
+            }
+        }
+        return exists;
+    }
     public boolean deleteSanPham(int sanPhamID){
         SQLiteDatabase db =dbHelper.getWritableDatabase();
         int reslt =db.delete("GioHangChiTiet","id_san_pham=?",new String[]{String.valueOf(sanPhamID)});
@@ -57,6 +71,7 @@ public class GioHangChiTietDao {
         return  reslt>0;
 
     }
+
     public boolean add(int idSanPham,int idGioHang){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();

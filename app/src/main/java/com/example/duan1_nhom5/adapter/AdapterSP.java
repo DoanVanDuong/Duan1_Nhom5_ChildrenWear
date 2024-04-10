@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.duan1_nhom5.R;
 import com.example.duan1_nhom5.dao.GioHangChiTietDao;
 import com.example.duan1_nhom5.dao.GioHangDao;
@@ -25,18 +26,19 @@ import com.example.duan1_nhom5.dao.SanPhamDao;
 import com.example.duan1_nhom5.model.GioHang;
 import com.example.duan1_nhom5.model.GioHangChiTiet;
 import com.example.duan1_nhom5.model.SanPham;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implements Filterable {
 
-    private Context context;
-    private GioHangChiTietDao gioHangChiTietDao;
+    private final Context context;
+    private final GioHangChiTietDao gioHangChiTietDao;
     public ArrayList<SanPham> list;
-    private ArrayList<GioHangChiTiet> listGH;
-    private GioHangChiTiet gioHangChiTiet;
-    private ArrayList<SanPham> fullList; // Danh sách đầy đủ, không bị lọc
-    private SanPhamDao sanPhamDao;
+    public ArrayList<GioHangChiTiet> list1;
+
+    private final ArrayList<SanPham> fullList; // Danh sách đầy đủ, không bị lọc
+    private final SanPhamDao sanPhamDao;
     private GioHangDao gioHangDao;
     int idGioHang;
 
@@ -45,8 +47,10 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
         this.list = list;
         this.fullList = new ArrayList<>(list); // Sao chép danh sách để dùng khi cần lọc lại
         sanPhamDao = new SanPhamDao(context);
-        gioHangChiTietDao=new GioHangChiTietDao(context);
+        gioHangChiTietDao = new GioHangChiTietDao(context);
+
     }
+
     public void filterList(ArrayList<SanPham> filteredList) {
         list = filteredList;
         notifyDataSetChanged();
@@ -74,15 +78,29 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
         holder.imageThemSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SharedPreferences sharedPreferences = context.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", "");
                 String password = sharedPreferences.getString("password", "");
-                gioHangDao =new GioHangDao(context.getApplicationContext());
-                idGioHang= gioHangDao.layIdGioHangTuUsernameVaMatKhau(username,password);
-                gioHangChiTietDao.add(sanPham.getId(),idGioHang);
-                // Thêm sản phẩm vào giỏ hàng
+                gioHangDao = new GioHangDao(context.getApplicationContext());
+                idGioHang = gioHangDao.layIdGioHangTuUsernameVaMatKhau(username, password);
 
-                Toast.makeText(holder.itemView.getContext(), "Đã cho vào giỏ hàng  Thành Công", Toast.LENGTH_SHORT).show();
+                list1 = gioHangChiTietDao.getList(idGioHang);
+
+                boolean existsInCart = false;
+                for (GioHangChiTiet gioHangChiTiet : list1) {
+                    if (gioHangChiTiet.getId_San_Pham() == sanPham.getId()) {
+                        existsInCart = true;
+                        break;
+                    }
+                }
+
+                if (!existsInCart) {
+                    gioHangChiTietDao.add(sanPham.getId(), idGioHang);
+                    Toast.makeText(holder.itemView.getContext(), "Đã thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(holder.itemView.getContext(), "Sản phẩm đã tồn tại trong giỏ hàng", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -124,6 +142,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
         };
 
     }
+
     private void addToCart(SanPham sanPham) {
 
         // Thêm sản phẩm vào giỏ hàng
@@ -136,6 +155,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
         TextView textViewName, textViewColor, textViewSize, textViewBrand, textViewPrice, textViewQuantity, textViewStatus;
 
         ImageView imageThemSP;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textViewName);
@@ -145,7 +165,7 @@ public class AdapterSP extends RecyclerView.Adapter<AdapterSP.ViewHolder> implem
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             textViewQuantity = itemView.findViewById(R.id.textViewQuantity);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
-            imageThemSP=itemView.findViewById(R.id.imggiohang);
+            imageThemSP = itemView.findViewById(R.id.imggiohang);
         }
     }
 }
