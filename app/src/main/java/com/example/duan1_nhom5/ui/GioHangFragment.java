@@ -107,9 +107,13 @@ public class GioHangFragment extends Fragment {
                         alertDialogBuilder1.setPositiveButton("Có", (dialog, which) -> {
                             donHangDao = new DonHangDao(getContext());
                             donHangDao.add(idKH, tong, 0 ,date, listSP);
-                            Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                             gioHangDao.xoaHetGioHangChiTiet(idGioHang);
+
+
+                            Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
+
+                            dialog.dismiss();
+
                             alertDialog.dismiss();
                         });
                         alertDialogBuilder1.setNegativeButton("Không", (dialogInterface, which) -> {
