@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1_nhom5.R;
 import com.example.duan1_nhom5.dao.GioHangChiTietDao;
 import com.example.duan1_nhom5.dao.GioHangDao;
+import com.example.duan1_nhom5.dao.SanPhamDao;
 import com.example.duan1_nhom5.model.GioHang;
 import com.example.duan1_nhom5.model.GioHangChiTiet;
 
@@ -23,16 +24,20 @@ import java.util.ArrayList;
 
 public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHolder> {
     private Context context;
-    int soLuong=0;
+
     private ArrayList<GioHang> list;
     private GioHangDao gioHangDao;
     private GioHangChiTietDao gioHangChiTietDao;
     private ArrayList<GioHangChiTiet> list1;
+    private SanPhamDao sanPhamDao;
+
 
 
     public GioHangAdapder(Context context, ArrayList<GioHangChiTiet> list1) {
         this.context = context;
         this.list1 = list1;
+
+        sanPhamDao= new SanPhamDao(context);
         gioHangChiTietDao = new GioHangChiTietDao(context);
     }
 
@@ -49,28 +54,48 @@ public class GioHangAdapder extends RecyclerView.Adapter<GioHangAdapder.ViewHold
 
         GioHangChiTiet gioHangChiTiet= list1.get(position);
         holder.txtTen.setText(gioHangChiTiet.getTenSP());
+        holder.txtSoLuong.setText(""+list1.get(position).getSoLuong());
         holder.btnTang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soLuong++;
-                holder.txtSoLuong.setText(String.valueOf(soLuong));
-                gioHangChiTiet.setSoLuong(String.valueOf(soLuong));
-                gioHangChiTietDao.updateSoLuong(gioHangChiTiet);
+                int slSP= sanPhamDao.getSoLuongSanPham(gioHangChiTiet.getId_San_Pham());
+                int sl = Integer.parseInt(holder.txtSoLuong.getText().toString()) +1;
+               if (sl<slSP){
+                   holder.txtSoLuong.setText(""+sl);
+                   gioHangChiTiet.setSoLuong(Integer.parseInt(holder.txtSoLuong.getText().toString()));
+                   gioHangChiTietDao.updateSoLuong(gioHangChiTiet);
+               }else if (sl==slSP){
+                   holder.txtSoLuong.setText(""+slSP);
+                   gioHangChiTiet.setSoLuong(slSP);
+                   gioHangChiTietDao.updateSoLuong(gioHangChiTiet);
+
+               }else {
+                   holder.txtSoLuong.setText(""+slSP);
+
+                   gioHangChiTiet.setSoLuong(slSP);
+                   gioHangChiTietDao.updateSoLuong(gioHangChiTiet);
+                   Toast.makeText(holder.itemView.getContext(), "vui lòng không nhập quá số lượng sản phaam", Toast.LENGTH_SHORT).show();
+               }
 
             }
+
         });
         holder.btnGiam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (soLuong > 0) {
-                    soLuong--;
-                    holder.txtSoLuong.setText(String.valueOf(soLuong));
-                    gioHangChiTiet.setSoLuong(String.valueOf(soLuong));
+                int sl = Integer.parseInt(holder.txtSoLuong.getText().toString()) -1;
+
+                if (sl<1){
+                    holder.txtSoLuong.setText("1");
+                    Toast.makeText(holder.itemView.getContext(), "vui lòng không nhập số lượng bằng 0", Toast.LENGTH_SHORT).show();
+                }else {
+                    holder.txtSoLuong.setText(""+sl);
+                    gioHangChiTiet.setSoLuong(Integer.parseInt(holder.txtSoLuong.getText().toString()));
                     gioHangChiTietDao.updateSoLuong(gioHangChiTiet);
-                } else {
-                    // Hiển thị thông báo khi số lượng đã là 0
-                    Toast.makeText(holder.itemView.getContext(), "Số lượng không thể nhỏ hơn 0", Toast.LENGTH_SHORT).show();
+
                 }
+
+
             }
         });
 
