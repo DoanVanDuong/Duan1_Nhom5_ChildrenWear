@@ -78,9 +78,8 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
                     donHangDao.updateNameAndStatus(donHang.getId(), nhanVien.getId(), 2);
                     list.get(position).setTenNV(nhanVien.getTenNV());
                     list.get(position).setTrangThai(2);
-                    ArrayList<DonHangChiTiet> listCT = donHangChiTietDao.getList(donHang.getId());
-                    donHangChiTietDao.updateProductQuantities(listCT);
                     notifyDataSetChanged();
+
                 });
                 alertDialogBuilder1.setNegativeButton("Không", (dialogInterface, which) -> {
                     dialogInterface.dismiss();
@@ -138,12 +137,21 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
                     list.get(position).setTenNV(nhanVien.getTenNV());
                     list.get(position).setTrangThai(1);
                     ArrayList<DonHangChiTiet> listCT = donHangChiTietDao.getList(donHang.getId());
-                    notifyDataSetChanged();
-                    holder.linearLayout1.setVisibility(View.VISIBLE);
-                    holder.linearLayout.setVisibility(View.GONE);
+                    boolean check=donHangDao.checkQuantity(listCT);
+                    if (check==true){
+                        holder.linearLayout1.setVisibility(View.VISIBLE);
+                        holder.linearLayout.setVisibility(View.GONE);
+                        donHangChiTietDao.updateProductQuantities(listCT);
+                        notifyDataSetChanged();
+                        Toast.makeText(holder.itemView.getContext(), "Xác nhận thành công đơn hàng", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }else {
+                        Toast.makeText(context, "Số lượng hàng trong kho không đủ", Toast.LENGTH_SHORT).show();
+                        holder.linearLayout1.setVisibility(View.GONE);
+                        holder.linearLayout.setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
 
-                    Toast.makeText(holder.itemView.getContext(), "Xác nhận thành công đơn hàng", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
                 });
                 alertDialogBuilder.setNegativeButton("Không", (dialogInterface, which) -> {
                     dialogInterface.dismiss();
