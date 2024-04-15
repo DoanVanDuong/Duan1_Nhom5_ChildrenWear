@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/khung3"
+    android:layout_marginTop="20dp"
     android:orientation="vertical"
-    android:paddingHorizontal="10dp"
-    android:layout_marginTop="20dp">
+    android:paddingHorizontal="10dp">
 
     <LinearLayout
         android:id="@+id/lilQlPM"
@@ -20,28 +20,6 @@
             android:layout_weight="3"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mã đơn:"
-                    android:textColor="#E62525"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtMaDonHang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="1"
-                    android:textColor="#853636" />
-            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -50,7 +28,6 @@
                 android:text="Sản Phẩm"
                 android:textSize="14dp"
                 android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,32 +35,11 @@
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcvQLDHSanPham"
+                    android:id="@+id/rcvQLDHSanPhamCuaBan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Khách hàng:"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtQLDHTenKhachHang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Lê Thị Be"
-                    android:textColor="#853636" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,39 +47,16 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nhân viên:"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtQLDHTenNV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="duongdv"
-                        android:textColor="#853636"
-                        android:textSize="12dp" />
-                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
                     android:text="Ngày mua:"
                     android:textSize="12dp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtNgayThue"
+                    android:id="@+id/txtNgayThue1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -147,7 +80,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtTongTien"
+                    android:id="@+id/txtTongTien1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -178,7 +111,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtTrangThai"
+                    android:id="@+id/txtTrangThai1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -191,37 +124,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/lilButon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp">
-
-                <Button
-                    android:id="@+id/btnXacNhan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:background="@drawable/khung1"
-                    android:text="Xác nhận"
-                    android:textColor="@color/white"
-                    android:textSize="14dp"
-                    app:backgroundTint="@null" />
-
-                <Button
-                    android:id="@+id/btnHuy"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/khung2"
-                    android:text="Hủy"
-                    android:textColor="@color/white"
-                    android:textSize="14dp"
-                    app:backgroundTint="@null" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/lilButon1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,19 +132,18 @@
                 android:orientation="horizontal"
                 android:paddingBottom="10dp">
 
-
                 <Button
-                    android:id="@+id/btnGui1"
+                    android:id="@+id/btnNhanHang"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
                     android:background="@drawable/khung2"
-                    android:text="Xác nhận gửi"
+                    android:text="Đã nhận được hàng"
                     android:textColor="@color/white"
                     android:textSize="14dp"
                     app:backgroundTint="@null" />
-            </LinearLayout>
-        </LinearLayout>
 
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

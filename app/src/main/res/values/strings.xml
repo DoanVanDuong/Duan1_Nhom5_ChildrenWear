@@ -20,6 +20,7 @@
     <string name="menu_doanhthu">Doanh thu</string>
     <string name="menu_doimk">Đổi mật khẩu</string>
     <string name="menu_dangxuat">Đăng xuất</string>
+    <string name="menu_donhangcuabant">Đơn hàng của bạn</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -59,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().findItem(R.id.nav_donhang).setVisible(false);
 
         }else if(user.equals("admin")&&pass.equals("admin")) {
+            navigationView.getMenu().findItem(R.id.nav_donhangcuaban).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_giohang).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_qlsanpham).setVisible(true);
         }else if(check1==true) {
+            navigationView.getMenu().findItem(R.id.nav_donhangcuaban).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_nhanvien).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_doanhthu).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_giohang).setVisible(false);
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         circularImageView.setImageBitmap(circularBitmap);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_doanhthu, R.id.nav_top, R.id.nav_dangxuat,R.id.nav_doimk, R.id.nav_nhanvien, R.id.nav_donhang, R.id.nav_qlsanpham,R.id.nav_sanpham)
+                R.id.nav_doanhthu, R.id.nav_top, R.id.nav_dangxuat,R.id.nav_doimk, R.id.nav_nhanvien, R.id.nav_donhang, R.id.nav_qlsanpham,R.id.nav_sanpham,R.id.nav_donhangcuaban)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
