@@ -62,10 +62,46 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
         holder.txtTongTien.setText(String.valueOf(donHang.getTongTien()));
 
         if (donHang.getTrangThai() == 1) {
+            holder.txtTrangThai.setText("Đơn hàng đã được xác nhận");
+            holder.txtTrangThai.setTextColor(Color.parseColor("#5F65ED"));
+            holder.linearLayout.setVisibility(View.GONE);
+            holder.linearLayout1.setVisibility(View.VISIBLE);
+            holder.btnGui.setOnClickListener(v1 -> {
+                AlertDialog.Builder alertDialogBuilder1 = new AlertDialog.Builder(context);
+                alertDialogBuilder1.setTitle("Gửi đơn hàng");
+                alertDialogBuilder1.setMessage("Đơn hàng sẽ được gửi?");
+                alertDialogBuilder1.setPositiveButton("Có", (dialog, which) -> {
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+                    String username = sharedPreferences.getString("username", "");
+                    String password = sharedPreferences.getString("password", "");
+                    NhanVien nhanVien = donHangDao.getNhanVienByUsernameAndPassword(username, password);
+                    donHangDao.updateNameAndStatus(donHang.getId(), nhanVien.getId(), 2);
+                    list.get(position).setTenNV(nhanVien.getTenNV());
+                    list.get(position).setTrangThai(2);
+                    notifyDataSetChanged();
+
+                });
+                alertDialogBuilder1.setNegativeButton("Không", (dialogInterface, which) -> {
+                    dialogInterface.dismiss();
+                });
+
+                AlertDialog alertDialog1 = alertDialogBuilder1.create();
+                alertDialog1.show();
+            });
+        } else if (donHang.getTrangThai() == 2) {
+            holder.txtTrangThai.setText("Đơn hàng đang được vận chuyển");
+            holder.txtTrangThai.setTextColor(Color.parseColor("#F42936"));
+            holder.linearLayout.setVisibility(View.GONE);
+            holder.linearLayout1.setVisibility(View.GONE);
+
+        } else if (donHang.getTrangThai()==3) {
             holder.txtTrangThai.setText("Thành công");
             holder.txtTrangThai.setTextColor(Color.parseColor("#5F65ED"));
             holder.linearLayout.setVisibility(View.GONE);
+            holder.linearLayout1.setVisibility(View.GONE);
         } else {
+            holder.linearLayout.setVisibility(View.VISIBLE);
+            holder.linearLayout1.setVisibility(View.GONE);
             holder.txtTrangThai.setText("Chờ xác nhận");
             holder.txtTrangThai.setTextColor(Color.parseColor("#F42936"));
             holder.btnHuy.setOnClickListener(v -> {
@@ -96,17 +132,26 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
                     SharedPreferences sharedPreferences = context.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
                     String username = sharedPreferences.getString("username", "");
                     String password = sharedPreferences.getString("password", "");
-                    NhanVien nhanVien=donHangDao.getNhanVienByUsernameAndPassword(username,password);
+                    NhanVien nhanVien = donHangDao.getNhanVienByUsernameAndPassword(username, password);
                     donHangDao.updateNameAndStatus(donHang.getId(), nhanVien.getId(), 1);
                     list.get(position).setTenNV(nhanVien.getTenNV());
                     list.get(position).setTrangThai(1);
                     ArrayList<DonHangChiTiet> listCT = donHangChiTietDao.getList(donHang.getId());
-                    donHangChiTietDao.updateProductQuantities(listCT);
-                    notifyDataSetChanged();
+                    boolean check=donHangDao.checkQuantity(listCT);
+                    if (check==true){
+                        holder.linearLayout1.setVisibility(View.VISIBLE);
+                        holder.linearLayout.setVisibility(View.GONE);
+                        donHangChiTietDao.updateProductQuantities(listCT);
+                        notifyDataSetChanged();
+                        Toast.makeText(holder.itemView.getContext(), "Xác nhận thành công đơn hàng", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }else {
+                        Toast.makeText(context, "Số lượng hàng trong kho không đủ", Toast.LENGTH_SHORT).show();
+                        holder.linearLayout1.setVisibility(View.GONE);
+                        holder.linearLayout.setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
 
-
-                    Toast.makeText(holder.itemView.getContext(), "Xác nhận thành công đơn hàng", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
                 });
                 alertDialogBuilder.setNegativeButton("Không", (dialogInterface, which) -> {
                     dialogInterface.dismiss();
@@ -130,8 +175,8 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtMaDonHang, txtTenKhachHang, txtTenNhanVien, txtNgayMua, txtTongTien, txtTrangThai;
-        LinearLayout linearLayout;
-        Button btnXacNhan, btnHuy;
+        LinearLayout linearLayout,linearLayout1;
+        Button btnXacNhan, btnHuy,btnGui;
         RecyclerView rcvSanPham;
 
         public ViewHolder(@NonNull View itemView) {
@@ -143,11 +188,12 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
             txtTongTien = itemView.findViewById(R.id.txtTongTien);
             txtTrangThai = itemView.findViewById(R.id.txtTrangThai);
             btnHuy = itemView.findViewById(R.id.btnHuy);
+            btnGui = itemView.findViewById(R.id.btnGui1);
             btnXacNhan = itemView.findViewById(R.id.btnXacNhan);
             linearLayout = itemView.findViewById(R.id.lilButon);
+            linearLayout1 = itemView.findViewById(R.id.lilButon1);
             rcvSanPham = itemView.findViewById(R.id.rcvQLDHSanPham);
         }
     }
 
-    ;
 }

@@ -108,13 +108,17 @@ public class GioHangFragment extends Fragment {
                             donHangDao = new DonHangDao(getContext());
                             donHangDao.add(idKH, tong, 0 ,date, listSP);
                             gioHangDao.xoaHetGioHangChiTiet(idGioHang);
-
-
+                            gioHangChiTietDao= new GioHangChiTietDao(getContext());
+                            list = gioHangChiTietDao.getList(idGioHang);
+                            gioHangAdapter =new GioHangAdapder(getContext(),list);
+                            recyclerView.setAdapter(gioHangAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             Toast.makeText(getContext(), "Đơn hàng của bạn đã được gửi", Toast.LENGTH_SHORT).show();
 
                             dialog.dismiss();
 
                             alertDialog.dismiss();
+
                         });
                         alertDialogBuilder1.setNegativeButton("Không", (dialogInterface, which) -> {
                             dialogInterface.dismiss();
