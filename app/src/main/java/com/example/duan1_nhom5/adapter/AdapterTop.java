@@ -56,4 +56,12 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
             textViewProductPrice = itemView.findViewById(R.id.textViewProductPrice);
         }
     }
+    // Cập nhật dữ liệu mới từ Fragment
+    public void updateData(ArrayList<Top> newData) {
+        if (newData != null) {
+            this.topList.clear();
+            this.topList.addAll(newData);
+            notifyDataSetChanged();
+        }
+    }
 }
