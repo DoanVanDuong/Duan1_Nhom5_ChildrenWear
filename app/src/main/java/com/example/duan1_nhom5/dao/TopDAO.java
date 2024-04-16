@@ -22,9 +22,10 @@ public class TopDAO {
         db = dbHelper.getWritableDatabase();
     }
 
-    public ArrayList<Top> getTopSellingProducts() {
+    public ArrayList<Top> getTopSellingProducts(String startDate, String endDate) {
         ArrayList<Top> topList = new ArrayList<>();
-        String query = "SELECT sp.ten AS ten_san_pham, " +
+
+        String query = "SELECT  sp.ten AS ten_san_pham, " +
                 "SUM(ct.so_luong) AS so_luong_ban, " +
                 "sp.gia_tien AS gia, " +
                 "tt.ten AS thuong_hieu " +
@@ -33,13 +34,15 @@ public class TopDAO {
                 "JOIN DonHang dh ON ct.id_don_hang = dh.id " +
                 "JOIN ThuocTinhSanPham tsp ON sp.id = tsp.id_san_pham " +
                 "JOIN ThuocTinh tt ON tsp.id_thuoc_tinh = tt.id " +
-                "WHERE dh.trang_thai = 1 " +
+                "WHERE dh.trang_thai = 3 " +
+                "AND dh.ngay_mua BETWEEN ? AND ? " +
                 "GROUP BY sp.ten, sp.gia_tien, tt.ten " +
                 "ORDER BY so_luong_ban DESC " +
                 "LIMIT 10";
 
+
         if (db != null) {
-            Cursor cursor = db.rawQuery(query, null);
+            Cursor cursor = db.rawQuery(query, new String[]{startDate, endDate});
             if (cursor.moveToFirst()) {
                 do {
                     String tenSanPham = cursor.getString(cursor.getColumnIndex("ten_san_pham"));
@@ -47,12 +50,13 @@ public class TopDAO {
                     int gia = cursor.getInt(cursor.getColumnIndex("gia"));
                     String thuongHieu = cursor.getString(cursor.getColumnIndex("thuong_hieu"));
 
+
                     // Kiểm tra xem sản phẩm đã tồn tại trong danh sách chưa
                     boolean isProductExist = false;
                     for (Top top : topList) {
                         if (top.getTenSanPham().equals(tenSanPham)) {
                             // Nếu sản phẩm đã tồn tại, cập nhật số lượng bán
-                            top.setSoLuongBan(top.getSoLuongBan() );
+                            top.setSoLuongBan(top.getSoLuongBan());
                             isProductExist = true;
                             break;
                         }
@@ -69,7 +73,6 @@ public class TopDAO {
         }
 
 
-
         return topList;
     }
 
@@ -83,7 +86,7 @@ public class TopDAO {
                 "JOIN DonHang dh ON ctd.id_don_hang = dh.id " +
                 "JOIN SanPham sp ON ctd.id_san_pham = sp.id " +
                 "WHERE dh.ngay_mua BETWEEN ? AND ? " +
-                "AND dh.trang_thai = 1"; // Thêm điều kiện trạng thái đơn hàng là 1
+                "AND dh.trang_thai = 3"; // Thêm điều kiện trạng thái đơn hàng là 1
 
 
         // Danh sách để lưu kết quả truy vấn
